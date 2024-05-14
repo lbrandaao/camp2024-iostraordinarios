@@ -1,5 +1,6 @@
 package com.example.journey
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,13 +17,22 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
-        //enableEdgeToEdge()
+
         setContent {
             val navController = rememberNavController()
+            val startDestination = if (onBoardingIsFinished(this@MainActivity)) {
+                "login"
+            } else {
+                "onboarding"
+            }
+
             JourneyTheme {
-                NavHost(navController = navController, startDestination = "onboarding" ) {
+                NavHost(navController = navController, startDestination = startDestination ) {
                     composable("onboarding") {
-                        OnBoardingScreen()
+                        OnBoardingScreen(this@MainActivity) {
+                            navController.popBackStack()
+                            navController.navigate("login")
+                        }
                     }
 
                     composable("login") {
@@ -35,5 +45,10 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    private fun onBoardingIsFinished(context: MainActivity): Boolean {
+        val sharedPreferences = context.getSharedPreferences("onBoarding", Context.MODE_PRIVATE)
+        return sharedPreferences.getBoolean("isFinished", false)
     }
 }
