@@ -66,6 +66,8 @@ dependencies {
     implementation(libs.gson)
     implementation("androidx.core:core-splashscreen:1.0.0")
     implementation("io.coil-kt:coil-compose:2.6.0")
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
+    implementation("com.google.accompanist:accompanist-pager:0.12.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

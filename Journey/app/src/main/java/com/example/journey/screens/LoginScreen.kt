@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
@@ -39,8 +40,9 @@ fun LoginScreen() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(id = R.drawable.logo_login),
-                contentDescription = "Logo não clicável"
+                painter = painterResource(id = R.drawable.logo_journey),
+                contentDescription = "Logo não clicável",
+                modifier = Modifier.size(width = 111.dp, height = 118.dp)
             )
 
             Text(
