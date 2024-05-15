@@ -110,7 +110,6 @@ fun JourneyDropDownMenu(
                             .fillMaxWidth()
                             .padding(bottom = 5.dp, start = 2.dp, end = 2.dp)
                             .border(1.dp, Color(0xFFE0E0E0))
-                            .background(color = Color.Blue)
                     )
                 }
             }

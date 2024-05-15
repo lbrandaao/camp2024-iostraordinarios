@@ -27,7 +27,7 @@ import com.example.journey.ui.theme.Poppins
 import com.example.journey.ui.theme.PrimaryBackgroundColor
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(onConfirmButtonClick: () -> Unit) {
     Surface (
         modifier = Modifier
             .fillMaxSize(),
@@ -93,7 +93,7 @@ fun LoginScreen() {
             )
 
             OutlinedButton(
-                onClick = { /*TODO*/ },
+                onClick = { onConfirmButtonClick.invoke() },
                 colors = ButtonDefaults.outlinedButtonColors(
                     containerColor = Color(0xFF185AE6)
                 ),
@@ -121,5 +121,5 @@ fun LoginScreen() {
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen()
+    LoginScreen() {}
 }

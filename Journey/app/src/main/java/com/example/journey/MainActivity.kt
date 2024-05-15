@@ -36,11 +36,16 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("login") {
-                        LoginScreen()
+                        LoginScreen {
+                            navController.popBackStack()
+                            navController.navigate("firstaccess")
+                        }
                     }
 
                     composable("firstaccess") {
-                        FirstAccessScreen()
+                        FirstAccessScreen {
+
+                        }
                     }
                 }
             }
