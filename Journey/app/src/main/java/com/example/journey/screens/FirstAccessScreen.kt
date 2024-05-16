@@ -45,6 +45,8 @@ fun FirstAccessScreen(onFinishButtonClick: () -> Unit) {
         "O indestrutível laço da evolução"
     )
 
+    var dropDownValue by remember { mutableStateOf("") }
+
     val chipsTextList = listOf(
         "Transformar",
         "Cuidar",
@@ -85,6 +87,10 @@ fun FirstAccessScreen(onFinishButtonClick: () -> Unit) {
                 .padding(top = 60.dp, start = 17.dp, end = 17.dp)
         ) {
             JourneyDropDownMenu(
+                value = dropDownValue,
+                onItemClick = {
+                    dropDownValue = it
+                },
                 label = "Selecione o seu superpoder",
                 placeholder = "Superpoder",
                 dropDownItemsTextList = dropDownItemsTextList
@@ -98,12 +104,12 @@ fun FirstAccessScreen(onFinishButtonClick: () -> Unit) {
                 modifier = Modifier.padding(top = 30.dp)
             )
 
-            FlowRow (
+            FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalArrangement = Arrangement.spacedBy((-5).dp),
                 modifier = Modifier
                     .padding(top = 10.dp)
-            ){
+            ) {
                 chipsTextList.forEach { chipText ->
                     var isSelected by remember {
                         mutableStateOf(false)
@@ -119,11 +125,11 @@ fun FirstAccessScreen(onFinishButtonClick: () -> Unit) {
                         },
                         label = {
                             Text(
-                                text =  chipText,
+                                text = chipText,
                                 fontFamily = Poppins,
                                 fontWeight = FontWeight.Medium,
                                 fontSize = 12.sp,
-                                color = if (isSelected) Color.Black else Color(0xFF185AE6)
+                                color = if (isSelected) Color.White else Color(0xFF185AE6)
                             )
                         },
                         border = AssistChipDefaults.assistChipBorder(
@@ -141,7 +147,7 @@ fun FirstAccessScreen(onFinishButtonClick: () -> Unit) {
                                 Icon(
                                     imageVector = Icons.Default.Clear,
                                     contentDescription = "Ícone clicável para desselecionar tag",
-                                    tint = Color.Gray
+                                    tint = Color.White
                                 )
                         }
                     )
@@ -175,5 +181,5 @@ fun FirstAccessScreen(onFinishButtonClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun FirstAccessScreenPreview() {
-    FirstAccessScreen(){}
+    FirstAccessScreen() {}
 }

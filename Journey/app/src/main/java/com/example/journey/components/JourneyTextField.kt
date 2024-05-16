@@ -9,10 +9,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -23,14 +19,13 @@ import com.example.journey.ui.theme.Poppins
 
 @Composable
 fun JourneyTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
     label: String,
     modifier: Modifier = Modifier,
     placeholder: String = "",
     visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
-
-    var textFieldValue by remember { mutableStateOf("") }
-
     Column(
         modifier = modifier
     ) {
@@ -46,9 +41,9 @@ fun JourneyTextField(
         )
 
         OutlinedTextField(
-            value = textFieldValue,
+            value = value,
             onValueChange = {
-                textFieldValue = it
+                onValueChange(it)
             },
             colors = OutlinedTextFieldDefaults.colors(
                 unfocusedTextColor = Color(0xFF828282),

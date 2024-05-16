@@ -1,6 +1,7 @@
 package com.example.journey.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +12,10 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,13 +32,19 @@ import com.example.journey.ui.theme.Poppins
 import com.example.journey.ui.theme.PrimaryBackgroundColor
 
 @Composable
-fun LoginScreen(onConfirmButtonClick: () -> Unit) {
-    Surface (
+fun LoginScreen(
+    onConfirmButtonClick: () -> Unit,
+    onRegistrationClick: () -> Unit
+) {
+    var emailValue by remember { mutableStateOf("") }
+    var passwordValue by remember { mutableStateOf("") }
+
+    Surface(
         modifier = Modifier
             .fillMaxSize(),
         color = PrimaryBackgroundColor
     ) {
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(start = 45.dp, end = 45.dp, top = 75.dp),
@@ -55,15 +66,23 @@ fun LoginScreen(onConfirmButtonClick: () -> Unit) {
                     .padding(top = 48.dp),
                 color = Color.Black
             )
-            
+
             JourneyTextField(
+                value = emailValue,
+                onValueChange = {
+                    emailValue = it
+                },
                 label = "Email",
-                placeholder = "example@ioasys.com",
+                placeholder = "exemplo@ioasys.com",
                 modifier = Modifier
                     .padding(top = 35.dp),
             )
 
             JourneyTextField(
+                value = passwordValue,
+                onValueChange = {
+                    passwordValue = it
+                },
                 label = "Senha",
                 modifier = Modifier
                     .padding(top = 35.dp),
@@ -90,6 +109,9 @@ fun LoginScreen(onConfirmButtonClick: () -> Unit) {
                 color = Color(0xFF626262),
                 modifier = Modifier
                     .padding(top = 54.dp)
+                    .clickable {
+                        onRegistrationClick.invoke()
+                    }
             )
 
             OutlinedButton(
@@ -121,5 +143,8 @@ fun LoginScreen(onConfirmButtonClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen() {}
+    LoginScreen(
+        onConfirmButtonClick = {},
+        onRegistrationClick = {}
+    )
 }

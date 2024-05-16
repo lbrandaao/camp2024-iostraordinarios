@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.journey.screens.FirstAccessScreen
 import com.example.journey.screens.LoginScreen
 import com.example.journey.screens.OnBoardingScreen
+import com.example.journey.screens.RegistrationScreen
 import com.example.journey.ui.theme.JourneyTheme
 
 class MainActivity : ComponentActivity() {
@@ -36,10 +37,27 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("login") {
-                        LoginScreen {
-                            navController.popBackStack()
-                            navController.navigate("firstaccess")
-                        }
+                        LoginScreen (
+                            onConfirmButtonClick = {
+                                navController.popBackStack()
+                                navController.navigate("firstaccess")
+                            },
+                            onRegistrationClick = {
+                                navController.navigate("registration")
+                            }
+                        )
+                    }
+
+                    composable("registration") {
+                        RegistrationScreen(
+                            onBackButtonClick = {
+                                navController.popBackStack()
+                            },
+                            onContinueButtonClick = {
+                                navController.popBackStack()
+                                navController.navigate("firstaccess")
+                            }
+                        )
                     }
 
                     composable("firstaccess") {

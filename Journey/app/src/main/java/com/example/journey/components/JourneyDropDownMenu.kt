@@ -28,13 +28,14 @@ import com.example.journey.ui.theme.Poppins
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun JourneyDropDownMenu(
+    value: String,
+    onItemClick: (String) -> Unit,
     label: String,
     placeholder: String,
     dropDownItemsTextList: List<String>,
     modifier: Modifier = Modifier
 ) {
     var isExpanded by remember { mutableStateOf(false) }
-    var textFieldValue by remember { mutableStateOf("") }
 
     Column (
         modifier = modifier
@@ -51,7 +52,7 @@ fun JourneyDropDownMenu(
             onExpandedChange = { isExpanded = it }
         ) {
             OutlinedTextField(
-                value = textFieldValue,
+                value = value,
                 onValueChange = { },
                 readOnly = true,
                 trailingIcon = {
@@ -103,7 +104,7 @@ fun JourneyDropDownMenu(
                             )
                         },
                         onClick = {
-                            textFieldValue = it
+                            onItemClick(it)
                             isExpanded = false
                         },
                         modifier = Modifier
