@@ -106,7 +106,7 @@ fun LoginScreen(
                 fontFamily = Poppins,
                 fontWeight = FontWeight.Medium,
                 fontSize = 16.sp,
-                color = Color(0xFF626262),
+                color = Color(0xFF7D8281),
                 modifier = Modifier
                     .padding(top = 54.dp)
                     .clickable {
@@ -117,21 +117,20 @@ fun LoginScreen(
             OutlinedButton(
                 onClick = { onConfirmButtonClick.invoke() },
                 colors = ButtonDefaults.outlinedButtonColors(
-                    containerColor = Color(0xFF185AE6)
+                    containerColor = Color(0xFF306BE9)
                 ),
                 border = null,
                 modifier = Modifier
                     .padding(top = 50.dp)
+                    .size(width = 176.dp, height = 40.dp)
 
             ) {
                 Text(
-                    text = "Confirmar",
+                    text = "Continuar",
                     fontFamily = Poppins,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 16.sp,
-                    color = Color.White,
-                    modifier = Modifier
-                        .padding(horizontal = 0.dp, vertical = 5.dp)
+                    color = Color.White
                 )
             }
 

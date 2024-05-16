@@ -36,7 +36,6 @@ import com.example.journey.components.JourneyDropDownMenu
 import com.example.journey.components.JourneyTextField
 import com.example.journey.ui.theme.Poppins
 import com.example.journey.ui.theme.PrimaryBackgroundColor
-import kotlinx.coroutines.launch
 
 @Composable
 fun RegistrationScreen(
@@ -260,15 +259,17 @@ fun RegistrationScreen(
                         colors = ButtonDefaults.outlinedButtonColors(
                             containerColor = Color.Transparent
                         ),
-                        border = BorderStroke(1.dp, Color(0xFF306BE9)),
-                        shape = RoundedCornerShape(24.dp)
+                        border = BorderStroke(1.dp, Color(0xFF759CF0)),
+                        shape = RoundedCornerShape(24.dp),
+                        modifier = Modifier
+                            .size(width = 160.dp, height = 40.dp)
                     ) {
                         Text(
                             text = "Voltar",
                             fontFamily = Poppins,
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 16.sp,
-                            color = Color(0xFF185AE6)
+                            color = Color(0xFF759CF0)
                         )
                     }
 
@@ -280,7 +281,9 @@ fun RegistrationScreen(
                             containerColor = Color(0xFF306BE9)
                         ),
                         border = BorderStroke(1.dp, Color(0xFF306BE9)),
-                        shape = RoundedCornerShape(24.dp)
+                        shape = RoundedCornerShape(24.dp),
+                        modifier = Modifier
+                            .size(width = 160.dp, height = 40.dp)
                     ) {
                         Text(
                             text = "Continuar",

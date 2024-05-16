@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
@@ -157,11 +158,12 @@ fun FirstAccessScreen(onFinishButtonClick: () -> Unit) {
             OutlinedButton(
                 onClick = { onFinishButtonClick.invoke() },
                 colors = ButtonDefaults.outlinedButtonColors(
-                    containerColor = Color(0xFFFF3D79)
+                    containerColor = Color(0xFF306BE9)
                 ),
                 modifier = Modifier
                     .padding(top = 35.dp)
-                    .align(Alignment.CenterHorizontally),
+                    .align(Alignment.CenterHorizontally)
+                    .size(width = 176.dp, height = 40.dp),
                 border = null
             ) {
                 Text(
@@ -169,9 +171,7 @@ fun FirstAccessScreen(onFinishButtonClick: () -> Unit) {
                     fontFamily = Poppins,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 16.sp,
-                    color = Color.White,
-                    modifier = Modifier
-                        .padding(horizontal = 10.dp, vertical = 3.dp)
+                    color = Color.White
                 )
             }
         }
