@@ -4,15 +4,25 @@ import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.journey.components.appbars.CustomBottomAppBar
+import com.example.journey.components.appbars.CustomTopAppBar
 import com.example.journey.screens.FirstAccessScreen
+import com.example.journey.screens.JourneysListScreen
 import com.example.journey.screens.LoginScreen
 import com.example.journey.screens.OnBoardingScreen
+import com.example.journey.screens.PostsListScreen
 import com.example.journey.screens.RegistrationScreen
+import com.example.journey.screens.Routes
 import com.example.journey.ui.theme.JourneyTheme
+import com.example.journey.ui.theme.PrimaryBackgroundColor
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,49 +30,91 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
 
         setContent {
-            val navController = rememberNavController()
+            val navControllerNoAppBars = rememberNavController()
+            val navControllerWithAppBars = rememberNavController()
+
             val startDestination = if (onBoardingIsFinished(this@MainActivity)) {
-                "login"
+                Routes.Login.route
             } else {
-                "onboarding"
+                Routes.OnBoarding.route
             }
 
             JourneyTheme {
-                NavHost(navController = navController, startDestination = startDestination ) {
-                    composable("onboarding") {
+                NavHost(
+                    navController = navControllerNoAppBars,
+                    startDestination = Routes.WithAppBars.route
+                ) {
+                    composable(Routes.OnBoarding.route) {
                         OnBoardingScreen(this@MainActivity) {
-                            navController.popBackStack()
-                            navController.navigate("login")
+                            navControllerNoAppBars.popBackStack()
+                            navControllerNoAppBars.navigate(Routes.Login.route)
                         }
                     }
 
-                    composable("login") {
-                        LoginScreen (
+                    composable(Routes.Login.route) {
+                        LoginScreen(
                             onConfirmButtonClick = {
-                                navController.popBackStack()
-                                navController.navigate("firstaccess")
+                                navControllerNoAppBars.popBackStack()
+                                navControllerNoAppBars.navigate(Routes.WithAppBars.route)
                             },
                             onRegistrationClick = {
-                                navController.navigate("registration")
+                                navControllerNoAppBars.navigate(Routes.Registration.route)
                             }
                         )
                     }
 
-                    composable("registration") {
+                    composable(Routes.Registration.route) {
                         RegistrationScreen(
                             onBackButtonClick = {
-                                navController.popBackStack()
+                                navControllerNoAppBars.popBackStack()
                             },
                             onContinueButtonClick = {
-                                navController.popBackStack()
-                                navController.navigate("firstaccess")
+                                navControllerNoAppBars.popBackStack()
+                                navControllerNoAppBars.navigate(Routes.FirstAccess.route)
                             }
                         )
                     }
 
-                    composable("firstaccess") {
+                    composable(Routes.FirstAccess.route) {
                         FirstAccessScreen {
+                            navControllerNoAppBars.popBackStack()
+                            navControllerNoAppBars.navigate(Routes.WithAppBars.route)
+                        }
+                    }
 
+                    composable(Routes.WithAppBars.route) {
+                        Scaffold(
+                            topBar = {
+                                CustomTopAppBar(
+                                    navControllerNoAppBars = navControllerNoAppBars,
+                                    navControllerWithAppBars = navControllerWithAppBars
+                                )
+                            },
+                            bottomBar = {
+                                CustomBottomAppBar(
+                                    navController = navControllerWithAppBars
+                                )
+                            }
+                        ) {
+                            val paddingValues = it
+                            Surface(
+                                modifier = Modifier
+                                    .fillMaxSize(),
+                                color = PrimaryBackgroundColor
+                            ) {
+                                NavHost(
+                                    navController = navControllerWithAppBars,
+                                    startDestination = Routes.JourneysList.route
+                                ) {
+                                    composable(Routes.JourneysList.route) {
+                                        JourneysListScreen(paddingValues = paddingValues)
+                                    }
+
+                                    composable(Routes.PostsList.route) {
+                                        PostsListScreen(paddingValues = paddingValues)
+                                    }
+                                }
+                            }
                         }
                     }
                 }

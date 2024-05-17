@@ -1,4 +1,4 @@
-package com.example.journey.components
+package com.example.journey.components.textfields
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
