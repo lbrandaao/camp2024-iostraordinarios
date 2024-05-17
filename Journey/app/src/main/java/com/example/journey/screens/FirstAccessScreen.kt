@@ -29,7 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.journey.components.textfields.JourneyDropDownMenu
+import com.example.journey.components.textfields.CustomDropDownMenu
 import com.example.journey.ui.theme.Poppins
 import com.example.journey.ui.theme.PrimaryBackgroundColor
 
@@ -87,7 +87,7 @@ fun FirstAccessScreen(onFinishButtonClick: () -> Unit) {
             modifier = Modifier
                 .padding(top = 60.dp, start = 17.dp, end = 17.dp)
         ) {
-            JourneyDropDownMenu(
+            CustomDropDownMenu(
                 value = dropDownValue,
                 onItemClick = {
                     dropDownValue = it

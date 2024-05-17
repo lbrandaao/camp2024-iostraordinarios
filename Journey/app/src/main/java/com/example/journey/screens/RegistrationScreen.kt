@@ -32,8 +32,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.journey.R
-import com.example.journey.components.textfields.JourneyDropDownMenu
-import com.example.journey.components.textfields.JourneyTextField
+import com.example.journey.components.textfields.CustomDropDownMenu
+import com.example.journey.components.textfields.CustomTextField
 import com.example.journey.ui.theme.Poppins
 import com.example.journey.ui.theme.PrimaryBackgroundColor
 
@@ -94,7 +94,7 @@ fun RegistrationScreen(
             }
 
             item {
-                JourneyTextField(
+                CustomTextField(
                     value = nameValue,
                     onValueChange = {
                         nameValue = it
@@ -107,7 +107,7 @@ fun RegistrationScreen(
             }
 
             item {
-                JourneyTextField(
+                CustomTextField(
                     value = emailValue,
                     onValueChange = {
                         emailValue = it
@@ -120,7 +120,7 @@ fun RegistrationScreen(
             }
 
             item {
-                JourneyTextField(
+                CustomTextField(
                     value = passwordValue,
                     onValueChange = {
                         passwordValue = it
@@ -133,7 +133,7 @@ fun RegistrationScreen(
             }
 
             item {
-                JourneyTextField(
+                CustomTextField(
                     value = confirmPasswordValue,
                     onValueChange = {
                         confirmPasswordValue = it
@@ -146,7 +146,7 @@ fun RegistrationScreen(
             }
 
             item {
-                JourneyDropDownMenu(
+                CustomDropDownMenu(
                     value = occupationValue,
                     onItemClick = {
                         occupationValue = it

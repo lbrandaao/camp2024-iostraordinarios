@@ -8,5 +8,6 @@ sealed class Routes(val route: String) {
     data object WithAppBars: Routes("withappbars")
     data object JourneysList: Routes("journeyslist")
     data object JourneyDetails: Routes("journeydetails")
+    data object CompleteJourney: Routes("completejourney")
     data object PostsList: Routes("postslist")
 }

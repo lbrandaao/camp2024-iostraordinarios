@@ -27,7 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.journey.R
-import com.example.journey.components.textfields.JourneyTextField
+import com.example.journey.components.textfields.CustomTextField
 import com.example.journey.ui.theme.Poppins
 import com.example.journey.ui.theme.PrimaryBackgroundColor
 
@@ -67,7 +67,7 @@ fun LoginScreen(
                 color = Color.Black
             )
 
-            JourneyTextField(
+            CustomTextField(
                 value = emailValue,
                 onValueChange = {
                     emailValue = it
@@ -78,7 +78,7 @@ fun LoginScreen(
                     .padding(top = 35.dp),
             )
 
-            JourneyTextField(
+            CustomTextField(
                 value = passwordValue,
                 onValueChange = {
                     passwordValue = it

@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.journey.components.appbars.CustomBottomAppBar
 import com.example.journey.components.appbars.CustomTopAppBar
+import com.example.journey.screens.CompleteJourneyScreen
 import com.example.journey.screens.FirstAccessScreen
 import com.example.journey.screens.JourneyDetailsScreen
 import com.example.journey.screens.JourneysListScreen
@@ -48,7 +49,7 @@ class MainActivity : ComponentActivity() {
             JourneyTheme {
                 NavHost(
                     navController = navControllerNoAppBars,
-                    startDestination = Routes.WithAppBars.route
+                    startDestination = startDestinationNoAppBars
                 ) {
                     composable(Routes.OnBoarding.route) {
                         OnBoardingScreen(this@MainActivity) {
@@ -84,6 +85,7 @@ class MainActivity : ComponentActivity() {
                     composable(Routes.FirstAccess.route) {
                         FirstAccessScreen {
                             navControllerNoAppBars.popBackStack()
+                            navControllerNoAppBars.popBackStack()
                             navControllerNoAppBars.navigate(Routes.WithAppBars.route)
                         }
                     }
@@ -94,7 +96,21 @@ class MainActivity : ComponentActivity() {
                             onBackClick = {
                                 navControllerNoAppBars.popBackStack()
                             },
-                            onAcceptClick = { }
+                            onAcceptClick = {
+                                navControllerNoAppBars.navigate(Routes.CompleteJourney.route)
+                            }
+                        )
+                    }
+
+                    composable(Routes.CompleteJourney.route) {
+                        CompleteJourneyScreen(
+                            onBackClick = {
+                                navControllerNoAppBars.popBackStack()
+                            },
+                            onSendClick = {
+                                navControllerNoAppBars.popBackStack()
+                                navControllerNoAppBars.popBackStack()
+                            }
                         )
                     }
 
@@ -127,8 +143,7 @@ class MainActivity : ComponentActivity() {
                                             paddingValues = paddingValues,
                                             journeyViewModel = journeyViewModel,
                                             onJourneyDetailsClick = {
-                                                startDestinationWithAppBars =
-                                                    Routes.JourneysList.route
+                                                startDestinationWithAppBars = Routes.JourneysList.route
                                                 navControllerNoAppBars.navigate(Routes.JourneyDetails.route)
                                             }
                                         )

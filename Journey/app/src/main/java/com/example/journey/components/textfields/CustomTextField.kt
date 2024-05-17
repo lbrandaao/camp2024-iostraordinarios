@@ -18,13 +18,16 @@ import androidx.compose.ui.unit.sp
 import com.example.journey.ui.theme.Poppins
 
 @Composable
-fun JourneyTextField(
+fun CustomTextField(
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
     modifier: Modifier = Modifier,
     placeholder: String = "",
-    visualTransformation: VisualTransformation = VisualTransformation.None
+    readOnly: Boolean = false,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null
 ) {
     Column(
         modifier = modifier
@@ -45,6 +48,7 @@ fun JourneyTextField(
             onValueChange = {
                 onValueChange(it)
             },
+            readOnly = readOnly,
             colors = OutlinedTextFieldDefaults.colors(
                 unfocusedTextColor = Color(0xFF828282),
                 focusedTextColor = Color.Black,
@@ -64,7 +68,9 @@ fun JourneyTextField(
                     fontSize = 16.sp,
                     color = Color(0xFF828282)
                 )
-            }
+            },
+            trailingIcon = trailingIcon,
+            leadingIcon = leadingIcon
         )
     }
 }
