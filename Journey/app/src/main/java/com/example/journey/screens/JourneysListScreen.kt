@@ -15,20 +15,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.journey.components.utils.JourneyComponent
 import com.example.journey.ui.theme.Poppins
+import com.example.journey.viewModels.JourneyViewModel
 
 @Composable
-fun JourneysListScreen(paddingValues: PaddingValues) {
-    val journey1TagsList = listOf(
-        "Aprendizado contínuo",
-        "Diálogo",
-        "Compartilhar"
-    )
+fun JourneysListScreen(
+    paddingValues: PaddingValues,
+    journeyViewModel: JourneyViewModel,
+    onJourneyDetailsClick: () -> Unit
+) {
 
-    val journey2TagsList = listOf(
-        "Cuidar",
-        "Desenvolvimento pessoal",
-        "Comportamento"
-    )
+    val journeysList = journeyViewModel.listJourneys()
 
     LazyColumn(
         modifier = Modifier
@@ -54,36 +50,47 @@ fun JourneysListScreen(paddingValues: PaddingValues) {
             )
         }
 
-        item {
-            JourneyComponent(
-                title = "Promova um momento de mentoria reversa.",
-                publisherName = "Ana Carolina M.",
-                tagsList = journey1TagsList,
-                superpowerText = "A Fabulosa Flecha da Agilidade",
-                onClick = {},
-                modifier = Modifier.fillMaxWidth()
-            )
+        repeat(journeysList.size - 1) {
+            item {
+                JourneyComponent(
+                    title = journeysList[it].title,
+                    publisherName = journeysList[it].publisher,
+                    tagsList = journeysList[it].tags,
+                    superpowerText = journeysList[it].superpower,
+                    onClick = {
+                        journeyViewModel.setSelectedJourney(journeysList[it])
+                        onJourneyDetailsClick.invoke()
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
         }
 
-
         item {
             JourneyComponent(
-                title = "Participe do Webinar da Zenklub sobre Saúde Mental",
-                publisherName = "Mônica Araújo",
-                tagsList = journey2TagsList,
-                superpowerText = "O Impenetrável Escudo do Cuidado",
-                onClick = {},
-                modifier = Modifier.fillMaxWidth().padding(bottom = paddingValues.calculateBottomPadding()+10.dp)
+                title = journeysList.last().title,
+                publisherName = journeysList.last().publisher,
+                tagsList = journeysList.last().tags,
+                superpowerText = journeysList.last().superpower,
+                onClick = {
+                    journeyViewModel.setSelectedJourney(journeysList.last())
+                    onJourneyDetailsClick.invoke()
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = paddingValues.calculateBottomPadding() + 10.dp)
             )
         }
     }
-
-
 }
 
 
 @Preview(showBackground = true)
 @Composable
 fun JourneysListScreenPreview() {
-    JourneysListScreen(paddingValues = PaddingValues())
+    JourneysListScreen(
+        paddingValues = PaddingValues(),
+        journeyViewModel = JourneyViewModel(),
+        onJourneyDetailsClick = {}
+    )
 }

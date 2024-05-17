@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -15,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.journey.components.appbars.CustomBottomAppBar
 import com.example.journey.components.appbars.CustomTopAppBar
 import com.example.journey.screens.FirstAccessScreen
+import com.example.journey.screens.JourneyDetailsScreen
 import com.example.journey.screens.JourneysListScreen
 import com.example.journey.screens.LoginScreen
 import com.example.journey.screens.OnBoardingScreen
@@ -23,8 +25,10 @@ import com.example.journey.screens.RegistrationScreen
 import com.example.journey.screens.Routes
 import com.example.journey.ui.theme.JourneyTheme
 import com.example.journey.ui.theme.PrimaryBackgroundColor
+import com.example.journey.viewModels.JourneyViewModel
 
 class MainActivity : ComponentActivity() {
+    private val journeyViewModel by viewModels<JourneyViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
@@ -33,11 +37,13 @@ class MainActivity : ComponentActivity() {
             val navControllerNoAppBars = rememberNavController()
             val navControllerWithAppBars = rememberNavController()
 
-            val startDestination = if (onBoardingIsFinished(this@MainActivity)) {
+            val startDestinationNoAppBars = if (onBoardingIsFinished(this@MainActivity)) {
                 Routes.Login.route
             } else {
                 Routes.OnBoarding.route
             }
+
+            var startDestinationWithAppBars = Routes.JourneysList.route
 
             JourneyTheme {
                 NavHost(
@@ -53,7 +59,7 @@ class MainActivity : ComponentActivity() {
 
                     composable(Routes.Login.route) {
                         LoginScreen(
-                            onConfirmButtonClick = {
+                            onConfirmButtonClick = { email, password ->
                                 navControllerNoAppBars.popBackStack()
                                 navControllerNoAppBars.navigate(Routes.WithAppBars.route)
                             },
@@ -82,6 +88,16 @@ class MainActivity : ComponentActivity() {
                         }
                     }
 
+                    composable(Routes.JourneyDetails.route) {
+                        JourneyDetailsScreen(
+                            journey = journeyViewModel.getSelectedJourney(),
+                            onBackClick = {
+                                navControllerNoAppBars.popBackStack()
+                            },
+                            onAcceptClick = { }
+                        )
+                    }
+
                     composable(Routes.WithAppBars.route) {
                         Scaffold(
                             topBar = {
@@ -104,10 +120,18 @@ class MainActivity : ComponentActivity() {
                             ) {
                                 NavHost(
                                     navController = navControllerWithAppBars,
-                                    startDestination = Routes.JourneysList.route
+                                    startDestination = startDestinationWithAppBars
                                 ) {
                                     composable(Routes.JourneysList.route) {
-                                        JourneysListScreen(paddingValues = paddingValues)
+                                        JourneysListScreen(
+                                            paddingValues = paddingValues,
+                                            journeyViewModel = journeyViewModel,
+                                            onJourneyDetailsClick = {
+                                                startDestinationWithAppBars =
+                                                    Routes.JourneysList.route
+                                                navControllerNoAppBars.navigate(Routes.JourneyDetails.route)
+                                            }
+                                        )
                                     }
 
                                     composable(Routes.PostsList.route) {

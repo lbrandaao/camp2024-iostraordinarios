@@ -33,7 +33,7 @@ import com.example.journey.ui.theme.PrimaryBackgroundColor
 
 @Composable
 fun LoginScreen(
-    onConfirmButtonClick: () -> Unit,
+    onConfirmButtonClick: (String, String) -> Unit,
     onRegistrationClick: () -> Unit
 ) {
     var emailValue by remember { mutableStateOf("") }
@@ -115,7 +115,7 @@ fun LoginScreen(
             )
 
             OutlinedButton(
-                onClick = { onConfirmButtonClick.invoke() },
+                onClick = { onConfirmButtonClick.invoke(emailValue, passwordValue) },
                 colors = ButtonDefaults.outlinedButtonColors(
                     containerColor = Color(0xFF306BE9)
                 ),
@@ -143,7 +143,7 @@ fun LoginScreen(
 @Composable
 fun LoginScreenPreview() {
     LoginScreen(
-        onConfirmButtonClick = {},
+        onConfirmButtonClick = {_,_ ->},
         onRegistrationClick = {}
     )
 }
