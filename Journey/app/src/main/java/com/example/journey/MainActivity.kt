@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.journey.components.appbars.CustomBottomAppBar
 import com.example.journey.components.appbars.CustomTopAppBar
+import com.example.journey.data.remote.TokenManager
 import com.example.journey.screens.CompleteJourneyScreen
 import com.example.journey.screens.FirstAccessScreen
 import com.example.journey.screens.JourneyDetailsScreen
@@ -29,19 +30,30 @@ import com.example.journey.ui.theme.PrimaryBackgroundColor
 import com.example.journey.viewModels.JourneyViewModel
 import com.example.journey.viewModels.UserViewModel
 
+/*
+* Terminar First Access Screen, token, repositórios, viewmodels, etc, tods serviços..
+* PagerState na bottom bar
+* Tela perfil, criação de post, carrossel de post
+* */
 class MainActivity : ComponentActivity() {
     private val journeyViewModel by viewModels<JourneyViewModel>()
     private val userViewModel by viewModels<UserViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        TokenManager.init(this@MainActivity)
         installSplashScreen()
 
         setContent {
             val navControllerNoAppBars = rememberNavController()
             val navControllerWithAppBars = rememberNavController()
 
-            val startDestinationNoAppBars = if (onBoardingIsFinished(this@MainActivity)) {
-                Routes.Login.route
+            val startDestinationNoAppBars =
+                if (onBoardingIsFinished(this@MainActivity)) {
+                    if (TokenManager.getToken().isNotBlank()) {
+                        userViewModel.setAuthenticatedUser()
+                        Routes.WithAppBars.route
+                    } else Routes.Login.route
             } else {
                 Routes.OnBoarding.route
             }
@@ -64,7 +76,7 @@ class MainActivity : ComponentActivity() {
                         LoginScreen(
                             context = this@MainActivity,
                             userViewModel = userViewModel,
-                            onConfirmButtonClick = {
+                            onAuthConfirm = {
                                 navControllerNoAppBars.popBackStack()
                                 navControllerNoAppBars.navigate(Routes.WithAppBars.route)
                             },
@@ -92,7 +104,7 @@ class MainActivity : ComponentActivity() {
                         FirstAccessScreen (
                             context = this@MainActivity,
                             userViewModel = userViewModel,
-                            onFinishButtonClick = {
+                            onRegistrationConfirm = {
                                 navControllerNoAppBars.popBackStack()
                                 navControllerNoAppBars.popBackStack()
                                 navControllerNoAppBars.navigate(Routes.WithAppBars.route)

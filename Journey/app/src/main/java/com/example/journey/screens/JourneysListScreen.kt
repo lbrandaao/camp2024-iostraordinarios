@@ -66,21 +66,24 @@ fun JourneysListScreen(
             }
         }
 
-        item {
-            JourneyComponent(
-                title = journeysList.last().title,
-                publisherName = journeysList.last().publisher.fullName,
-                tagsList = journeysList.last().tags,
-                superpowerText = journeysList.last().superpower,
-                onClick = {
-                    journeyViewModel.setSelectedJourney(journeysList.last())
-                    onJourneyDetailsClick.invoke()
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = paddingValues.calculateBottomPadding() + 10.dp)
-            )
+        if(journeysList.size > 0) {
+            item {
+                JourneyComponent(
+                    title = journeysList.last().title,
+                    publisherName = journeysList.last().publisher.fullName,
+                    tagsList = journeysList.last().tags,
+                    superpowerText = journeysList.last().superpower,
+                    onClick = {
+                        journeyViewModel.setSelectedJourney(journeysList.last())
+                        onJourneyDetailsClick.invoke()
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = paddingValues.calculateBottomPadding() + 10.dp)
+                )
+            }
         }
+
     }
 }
 
