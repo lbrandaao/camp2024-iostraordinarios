@@ -1,5 +1,6 @@
 package com.example.journey.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -31,14 +32,18 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.journey.MainActivity
 import com.example.journey.R
 import com.example.journey.components.textfields.CustomDropDownMenu
 import com.example.journey.components.textfields.CustomTextField
 import com.example.journey.ui.theme.Poppins
 import com.example.journey.ui.theme.PrimaryBackgroundColor
+import com.example.journey.viewModels.UserViewModel
 
 @Composable
 fun RegistrationScreen(
+    context: MainActivity,
+    userViewModel: UserViewModel,
     onBackButtonClick: () -> Unit,
     onContinueButtonClick: () -> Unit
 ) {
@@ -275,7 +280,30 @@ fun RegistrationScreen(
 
                     OutlinedButton(
                         onClick = {
-                            onContinueButtonClick.invoke()
+                            if (
+                                nameValue.isNotBlank() &&
+                                emailValue.isNotBlank() &&
+                                passwordValue.isNotBlank() &&
+                                confirmPasswordValue.isNotBlank() &&
+                                passwordValue == confirmPasswordValue &&
+                                occupationValue.isNotBlank() &&
+                                isLeader != null
+                            ) {
+                                userViewModel.saveNewUserData(
+                                    nameValue,
+                                    emailValue,
+                                    passwordValue,
+                                    occupationValue,
+                                    if(isLeader!!) "leader" else "user"
+                                )
+                                onContinueButtonClick.invoke()
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "Preencha todos os campos corretamente.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         },
                         colors = ButtonDefaults.outlinedButtonColors(
                             containerColor = Color(0xFF306BE9)
@@ -303,6 +331,8 @@ fun RegistrationScreen(
 @Composable
 fun RegistrationScreenPreview() {
     RegistrationScreen(
+        context = MainActivity(),
+        userViewModel = UserViewModel(),
         onBackButtonClick = {},
         onContinueButtonClick = {}
     )

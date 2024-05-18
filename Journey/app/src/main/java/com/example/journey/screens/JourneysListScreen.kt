@@ -54,7 +54,7 @@ fun JourneysListScreen(
             item {
                 JourneyComponent(
                     title = journeysList[it].title,
-                    publisherName = journeysList[it].publisher,
+                    publisherName = journeysList[it].publisher.fullName,
                     tagsList = journeysList[it].tags,
                     superpowerText = journeysList[it].superpower,
                     onClick = {
@@ -69,7 +69,7 @@ fun JourneysListScreen(
         item {
             JourneyComponent(
                 title = journeysList.last().title,
-                publisherName = journeysList.last().publisher,
+                publisherName = journeysList.last().publisher.fullName,
                 tagsList = journeysList.last().tags,
                 superpowerText = journeysList.last().superpower,
                 onClick = {

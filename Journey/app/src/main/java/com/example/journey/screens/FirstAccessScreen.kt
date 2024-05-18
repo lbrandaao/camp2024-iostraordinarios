@@ -1,5 +1,6 @@
 package com.example.journey.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -29,54 +30,31 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.journey.MainActivity
 import com.example.journey.components.textfields.CustomDropDownMenu
+import com.example.journey.data.repository.SuperpowerRepository
+import com.example.journey.data.repository.TagRepository
 import com.example.journey.ui.theme.Poppins
 import com.example.journey.ui.theme.PrimaryBackgroundColor
+import com.example.journey.viewModels.UserViewModel
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun FirstAccessScreen(onFinishButtonClick: () -> Unit) {
-    val dropDownItemsTextList = listOf(
-        "O impenetrável escudo do cuidado",
-        "A varinha mágica da transformação",
-        "O poder infinito da mente",
-        "O incrível cristal do extraordinário",
-        "As maravilhosas asas para inovar",
-        "A fabulosa flecha da agilidade",
-        "O indestrutível laço da evolução"
-    )
+fun FirstAccessScreen(
+    context: MainActivity,
+    userViewModel: UserViewModel,
+    onFinishButtonClick: () -> Unit
+) {
+    val superpowerRepository = SuperpowerRepository()
+    val tagRepository = TagRepository()
 
+    val superpowersList = superpowerRepository.listSuperpowers()
+    val dropDownItemsTextList = superpowersList.map { it.name }
     var dropDownValue by remember { mutableStateOf("") }
 
-    val chipsTextList = listOf(
-        "Transformar",
-        "Cuidar",
-        "Diversificar",
-        "Respeitar",
-        "Produzir bem",
-        "Criatividade",
-        "Inovação",
-        "Excelência",
-        "Reconhecimento",
-        "Surpreender",
-        "Novidade",
-        "Expansão",
-        "Manutenção",
-        "Agilidade",
-        "Comportamento",
-        "Transparência",
-        "Expectativas x Restrições",
-        "Desenvolvimento pessoal",
-        "Softskills",
-        "Aprendizado contínuo",
-        "Evolução",
-        "Mercado",
-        "Constância",
-        "Diálogo",
-        "Compartilhar"
-    )
-
-    val selectedTagsList = mutableListOf<String>()
+    val tagsList = tagRepository.listTags()
+    val chipsTextList = tagsList.map { it.name }
+    val selectedStringTagsList = mutableListOf<String>()
 
     Surface(
         modifier = Modifier
@@ -119,9 +97,9 @@ fun FirstAccessScreen(onFinishButtonClick: () -> Unit) {
                     AssistChip(
                         onClick = {
                             if (isSelected)
-                                selectedTagsList -= chipText
+                                selectedStringTagsList -= chipText
                             else
-                                selectedTagsList += chipText
+                                selectedStringTagsList += chipText
                             isSelected = !isSelected
                         },
                         label = {
@@ -156,7 +134,29 @@ fun FirstAccessScreen(onFinishButtonClick: () -> Unit) {
             }
 
             OutlinedButton(
-                onClick = { onFinishButtonClick.invoke() },
+                onClick = {
+                    if (dropDownValue.isNotBlank() &&
+                        selectedStringTagsList.isNotEmpty()
+                    ) {
+                        val selectedSuperpowerId =
+                            superpowersList.find { it.name == dropDownValue }?.id ?: 0
+                        val selectedIdTagsList = selectedStringTagsList
+                            .map { tagString ->
+                                tagsList.find { it.name == tagString }?.id ?: 0
+                            }
+
+                        val userCreated =
+                            userViewModel.createUser(selectedSuperpowerId, selectedIdTagsList)
+                        if (userCreated) {
+                            onFinishButtonClick.invoke()
+                        } else Toast.makeText(
+                            context,
+                            "Algo deu errado.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                },
                 colors = ButtonDefaults.outlinedButtonColors(
                     containerColor = Color(0xFF306BE9)
                 ),
@@ -181,5 +181,9 @@ fun FirstAccessScreen(onFinishButtonClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun FirstAccessScreenPreview() {
-    FirstAccessScreen() {}
+    FirstAccessScreen(
+        context = MainActivity(),
+        userViewModel = UserViewModel(),
+        onFinishButtonClick = {}
+    )
 }

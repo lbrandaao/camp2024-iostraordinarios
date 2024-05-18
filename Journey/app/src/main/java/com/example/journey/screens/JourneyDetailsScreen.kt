@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.journey.R
 import com.example.journey.data.models.Journey
+import com.example.journey.data.models.UserResponse
 import com.example.journey.ui.theme.Poppins
 import com.example.journey.ui.theme.PrimaryBackgroundColor
 
@@ -259,7 +260,16 @@ val journey = Journey(
             "mais jovens e entender quais os impactos positivos eles podem trazer para o " +
             "seu dia-a-dia e você, que acabou de entrar no mercado, comece a pensar em como " +
             "sua carreira ainda em construção pode nos ajudar a crescer!",
-    publisher = "Ana Carolina M.",
+    publisher = UserResponse(
+        fullName = "Ana Carolina M.",
+        email = "",
+        position = "",
+        role = "",
+        nuts = 0,
+        superpower = "A fabulosa flecha da agilidade",
+        tags = listOf<String>(),
+        biography = ""
+    ),
     superpower = "A Fabulosa Flecha da Agilidade",
     tags = listOf("Aprendizado contínuo", "Diálogo", "Compartilhar"),
     nuts = 200

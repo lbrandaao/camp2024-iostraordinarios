@@ -27,9 +27,11 @@ import com.example.journey.screens.Routes
 import com.example.journey.ui.theme.JourneyTheme
 import com.example.journey.ui.theme.PrimaryBackgroundColor
 import com.example.journey.viewModels.JourneyViewModel
+import com.example.journey.viewModels.UserViewModel
 
 class MainActivity : ComponentActivity() {
     private val journeyViewModel by viewModels<JourneyViewModel>()
+    private val userViewModel by viewModels<UserViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
@@ -60,7 +62,9 @@ class MainActivity : ComponentActivity() {
 
                     composable(Routes.Login.route) {
                         LoginScreen(
-                            onConfirmButtonClick = { email, password ->
+                            context = this@MainActivity,
+                            userViewModel = userViewModel,
+                            onConfirmButtonClick = {
                                 navControllerNoAppBars.popBackStack()
                                 navControllerNoAppBars.navigate(Routes.WithAppBars.route)
                             },
@@ -72,6 +76,8 @@ class MainActivity : ComponentActivity() {
 
                     composable(Routes.Registration.route) {
                         RegistrationScreen(
+                            context = this@MainActivity,
+                            userViewModel = userViewModel,
                             onBackButtonClick = {
                                 navControllerNoAppBars.popBackStack()
                             },
@@ -83,11 +89,15 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable(Routes.FirstAccess.route) {
-                        FirstAccessScreen {
-                            navControllerNoAppBars.popBackStack()
-                            navControllerNoAppBars.popBackStack()
-                            navControllerNoAppBars.navigate(Routes.WithAppBars.route)
-                        }
+                        FirstAccessScreen (
+                            context = this@MainActivity,
+                            userViewModel = userViewModel,
+                            onFinishButtonClick = {
+                                navControllerNoAppBars.popBackStack()
+                                navControllerNoAppBars.popBackStack()
+                                navControllerNoAppBars.navigate(Routes.WithAppBars.route)
+                            }
+                        )
                     }
 
                     composable(Routes.JourneyDetails.route) {

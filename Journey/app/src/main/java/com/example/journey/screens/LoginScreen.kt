@@ -1,5 +1,6 @@
 package com.example.journey.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -26,14 +27,18 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.journey.MainActivity
 import com.example.journey.R
 import com.example.journey.components.textfields.CustomTextField
 import com.example.journey.ui.theme.Poppins
 import com.example.journey.ui.theme.PrimaryBackgroundColor
+import com.example.journey.viewModels.UserViewModel
 
 @Composable
 fun LoginScreen(
-    onConfirmButtonClick: (String, String) -> Unit,
+    context: MainActivity,
+    userViewModel: UserViewModel,
+    onConfirmButtonClick: () -> Unit,
     onRegistrationClick: () -> Unit
 ) {
     var emailValue by remember { mutableStateOf("") }
@@ -115,7 +120,26 @@ fun LoginScreen(
             )
 
             OutlinedButton(
-                onClick = { onConfirmButtonClick.invoke(emailValue, passwordValue) },
+                onClick = {
+                    if (
+                        emailValue.isNotBlank() &&
+                        passwordValue.isNotBlank()
+                    ) {
+                        val confirmAuth = userViewModel.authUser(emailValue, passwordValue)
+                        if (confirmAuth) onConfirmButtonClick.invoke()
+                        else Toast.makeText(
+                            context,
+                            "Email ou senha inválidos.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            context,
+                            "Preencha todos os campos.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                },
                 colors = ButtonDefaults.outlinedButtonColors(
                     containerColor = Color(0xFF306BE9)
                 ),
@@ -143,7 +167,9 @@ fun LoginScreen(
 @Composable
 fun LoginScreenPreview() {
     LoginScreen(
-        onConfirmButtonClick = {_,_ ->},
+        context = MainActivity(),
+        userViewModel = UserViewModel(),
+        onConfirmButtonClick = {},
         onRegistrationClick = {}
     )
 }
