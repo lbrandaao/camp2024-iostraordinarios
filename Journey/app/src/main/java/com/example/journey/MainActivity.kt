@@ -144,6 +144,8 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
+                    composable(Routes.PostsFeed.route){}
+
                     composable(Routes.WithAppBars.route) {
                         Scaffold(
                             topBar = {
@@ -167,7 +169,7 @@ class MainActivity : ComponentActivity() {
                             ) {
                                 NavHost(
                                     navController = navControllerWithAppBars,
-                                    startDestination = Routes.Creation.route
+                                    startDestination = Routes.PostsList.route
                                 ) {
                                     composable(Routes.JourneysList.route) {
                                         JourneysListScreen(
@@ -176,13 +178,21 @@ class MainActivity : ComponentActivity() {
                                             onJourneyDetailsClick = {
                                                 startDestinationWithAppBars =
                                                     Routes.JourneysList.route
+                                                navControllerWithAppBars.popBackStack()
                                                 navControllerNoAppBars.navigate(Routes.JourneyDetails.route)
                                             }
                                         )
                                     }
 
                                     composable(Routes.PostsList.route) {
-                                        PostsListScreen(paddingValues = paddingValues)
+                                        PostsListScreen(
+                                            paddingValues = paddingValues,
+                                            onSeeMoreButtonClick = {
+                                                startDestinationWithAppBars = Routes.PostsList.route
+                                                navControllerWithAppBars.popBackStack()
+                                                navControllerNoAppBars.navigate(Routes.PostsFeed.route)
+                                            }
+                                        )
                                     }
 
                                     composable(Routes.Profile.route) {}

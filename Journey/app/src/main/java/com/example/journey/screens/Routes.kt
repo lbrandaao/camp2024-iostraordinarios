@@ -13,6 +13,8 @@ sealed class Routes(val route: String) {
     data object CompleteJourney: Routes("completejourney")
     data object PostsList: Routes("postslist")
 
+    data object PostsFeed: Routes("postsfeed")
+
     data object Profile: Routes("profile")
 
     data object Ranking: Routes("ranking")
