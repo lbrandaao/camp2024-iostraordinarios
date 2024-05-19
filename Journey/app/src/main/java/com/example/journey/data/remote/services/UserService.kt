@@ -1,3 +1,5 @@
+package com.example.journey.data.remote.services
+
 import com.example.journey.data.models.AccessToken
 import com.example.journey.data.models.Login
 import com.example.journey.data.models.NewUserRequest
@@ -14,11 +16,18 @@ interface UserService {
         @Body newUser: NewUserRequest
     ): Response<UserResponse>
 
+    @GET("users")
+    suspend fun getAllUsers(
+        @Header("Authorization") token: String
+    ): Response<List<UserResponse>>
+
     @POST("auth/login")
     suspend fun login(
         @Body data: Login
     ): Response<AccessToken>
 
     @GET("users/me")
-    suspend fun auth(@Header("Authorization") token: String): Response<UserResponse>
+    suspend fun auth(
+        @Header("Authorization") token: String
+    ): Response<UserResponse>
 }

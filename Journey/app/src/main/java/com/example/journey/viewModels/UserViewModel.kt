@@ -51,8 +51,8 @@ class UserViewModel : ViewModel() {
             password = _newUserPassword,
             position = _newUserPosition,
             role = _newUserRole,
-            superpower = superpowerId,
-            tags = tagsIdList
+            superpowerId = superpowerId,
+            tagIds = tagsIdList
         )
         viewModelScope.launch {
             val newUserIsCreated = _userRepository.createUser(newUserRequest)
@@ -91,8 +91,10 @@ class UserViewModel : ViewModel() {
     }
 
     fun setAuthenticatedUser() {
+        _viewModelIsReady = false
         viewModelScope.launch {
             _authenticatedUser = _userRepository.getAuthenticatedUser()
+            _viewModelIsReady = true
         }
     }
 

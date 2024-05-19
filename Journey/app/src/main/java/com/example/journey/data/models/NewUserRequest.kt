@@ -6,6 +6,6 @@ data class NewUserRequest(
     val password: String,
     val position: String,
     val role: String,
-    val superpower: Int,
-    val tags: List<Int>
+    val superpowerId: Int,
+    val tagIds: List<Int>
 )

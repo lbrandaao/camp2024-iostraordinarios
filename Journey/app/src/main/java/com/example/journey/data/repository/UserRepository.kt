@@ -36,8 +36,8 @@ class UserRepository {
     }
 
     suspend fun getAuthenticatedUser(): UserResponse? {
-        var authenticatedUser: UserResponse? = null
         val requestToken = "Bearer " + TokenManager.getToken()
+        var authenticatedUser: UserResponse? = null
         val response = _userService.auth(requestToken)
 
         if (response.isSuccessful) {

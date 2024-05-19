@@ -31,10 +31,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.journey.MainActivity
 import com.example.journey.components.textfields.CustomDropDownMenu
-import com.example.journey.data.repository.SuperpowerRepository
-import com.example.journey.data.repository.TagRepository
 import com.example.journey.ui.theme.Poppins
 import com.example.journey.ui.theme.PrimaryBackgroundColor
+import com.example.journey.viewModels.SuperpowerViewModel
+import com.example.journey.viewModels.TagViewModel
 import com.example.journey.viewModels.UserViewModel
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -42,18 +42,18 @@ import com.example.journey.viewModels.UserViewModel
 fun FirstAccessScreen(
     context: MainActivity,
     userViewModel: UserViewModel,
+    superpowerViewModel: SuperpowerViewModel,
+    tagViewModel: TagViewModel,
     onRegistrationConfirm: () -> Unit
 ) {
-    val superpowerRepository = SuperpowerRepository()
-    val tagRepository = TagRepository()
 
-    val superpowersList = superpowerRepository.listSuperpowers()
-    val dropDownItemsTextList = superpowersList.map { it.name }
-    var dropDownValue by remember { mutableStateOf("") }
-
-    val tagsList = tagRepository.listTags()
-    val chipsTextList = tagsList.map { it.name }
-    val selectedStringTagsList = mutableListOf<String>()
+    if (
+        superpowerViewModel.listSuperpowers() == null ||
+        tagViewModel.listTags() == null
+        ) {
+        superpowerViewModel.loadSuperpowers()
+        tagViewModel.loadTags()
+    }
 
     Surface(
         modifier = Modifier
@@ -61,7 +61,16 @@ fun FirstAccessScreen(
         color = PrimaryBackgroundColor
     ) {
 
-        if (userViewModel.isReady()) {
+        if (userViewModel.isReady() &&
+            superpowerViewModel.isReady() &&
+            tagViewModel.isReady()) {
+            val dropDownItemsTextList =
+                superpowerViewModel.listSuperpowers()?.map { it.name }?: listOf()
+            var dropDownValue by remember { mutableStateOf("") }
+
+            val chipsTextList = tagViewModel.listTags()?.map { it.name }?: listOf()
+            val selectedStringTagsList = mutableListOf<String>()
+
             Column(
                 modifier = Modifier
                     .padding(top = 60.dp, start = 17.dp, end = 17.dp)
@@ -140,10 +149,14 @@ fun FirstAccessScreen(
                             selectedStringTagsList.isNotEmpty()
                         ) {
                             val selectedSuperpowerId =
-                                superpowersList.find { it.name == dropDownValue }?.id ?: 1
+                                superpowerViewModel.listSuperpowers()
+                                    ?.find { it.name == dropDownValue }?.id
+                                    ?: 1
                             val selectedIdTagsList = selectedStringTagsList
                                 .map { tagString ->
-                                    tagsList.find { it.name == tagString }?.id ?: 1
+                                    tagViewModel.listTags()
+                                        ?.find { it.name == tagString }?.id
+                                        ?: 1
                                 }
 
                             userViewModel.createUser(

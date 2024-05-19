@@ -28,16 +28,23 @@ import com.example.journey.screens.Routes
 import com.example.journey.ui.theme.JourneyTheme
 import com.example.journey.ui.theme.PrimaryBackgroundColor
 import com.example.journey.viewModels.JourneyViewModel
+import com.example.journey.viewModels.PostViewModel
+import com.example.journey.viewModels.SuperpowerViewModel
+import com.example.journey.viewModels.TagViewModel
 import com.example.journey.viewModels.UserViewModel
 
 /*
-* Terminar First Access Screen, token, repositórios, viewmodels, etc, tods serviços..
 * PagerState na bottom bar
 * Tela perfil, criação de post, carrossel de post
+* TIRAR VERIFICAÇÃO DE TOKEN PARA REQUISIÇÃO GET NO SUPERPOWER E NA TAG
+* JOURNEY NÃO TÁ RETORNANDO TAGS E SUPERPOWERS VERIFICAR A POSTS TAMBÉM
 * */
 class MainActivity : ComponentActivity() {
-    private val journeyViewModel by viewModels<JourneyViewModel>()
     private val userViewModel by viewModels<UserViewModel>()
+    private val journeyViewModel by viewModels<JourneyViewModel>()
+    private val postViewModel by viewModels<PostViewModel>()
+    private val superpowerViewModel by viewModels<SuperpowerViewModel>()
+    private val tagViewModel by viewModels<TagViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,6 +111,8 @@ class MainActivity : ComponentActivity() {
                         FirstAccessScreen (
                             context = this@MainActivity,
                             userViewModel = userViewModel,
+                            superpowerViewModel = superpowerViewModel,
+                            tagViewModel = tagViewModel,
                             onRegistrationConfirm = {
                                 navControllerNoAppBars.popBackStack()
                                 navControllerNoAppBars.popBackStack()
@@ -174,6 +183,12 @@ class MainActivity : ComponentActivity() {
                                     composable(Routes.PostsList.route) {
                                         PostsListScreen(paddingValues = paddingValues)
                                     }
+
+                                    composable(Routes.Profile.route){}
+
+                                    composable(Routes.Ranking.route){}
+
+                                    composable(Routes.Creation.route){}
                                 }
                             }
                         }

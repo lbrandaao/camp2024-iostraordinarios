@@ -28,7 +28,7 @@ fun JourneyComponent(
     title: String,
     publisherName: String,
     tagsList: List<String>,
-    superpowerText: String,
+    superpowersList: List<String>,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -87,26 +87,29 @@ fun JourneyComponent(
                 )
             }
 
-            AssistChip(
-                onClick = {},
-                label = {
-                    Text(
-                        text = superpowerText,
-                        fontFamily = Poppins,
-                        fontWeight = FontWeight.Medium,
-                        fontSize = 10.sp,
-                        color = Color(0xFFEB0049)
+            superpowersList.forEach {
+                AssistChip(
+                    onClick = {},
+                    label = {
+                        Text(
+                            text = it,
+                            fontFamily = Poppins,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 10.sp,
+                            color = Color(0xFFEB0049)
+                        )
+                    },
+                    border = AssistChipDefaults.assistChipBorder(
+                        borderColor = Color(0xFFEB0049),
+                        borderWidth = 1.dp
+                    ),
+                    shape = RoundedCornerShape(100.dp),
+                    colors = AssistChipDefaults.assistChipColors(
+                        containerColor = Color.Transparent
                     )
-                },
-                border = AssistChipDefaults.assistChipBorder(
-                    borderColor = Color(0xFFEB0049),
-                    borderWidth = 1.dp
-                ),
-                shape = RoundedCornerShape(100.dp),
-                colors = AssistChipDefaults.assistChipColors(
-                    containerColor = Color.Transparent
                 )
-            )
+            }
+
         }
 
         Text(

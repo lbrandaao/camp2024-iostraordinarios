@@ -130,7 +130,7 @@ fun JourneyDetailsScreen(
                                     onClick = {},
                                     label = {
                                         Text(
-                                            text = it,
+                                            text = it.name,
                                             fontFamily = Poppins,
                                             fontWeight = FontWeight.Medium,
                                             fontSize = 12.sp,
@@ -148,26 +148,30 @@ fun JourneyDetailsScreen(
                                 )
                             }
 
-                            AssistChip(
-                                onClick = {},
-                                label = {
-                                    Text(
-                                        text = journey.superpower,
-                                        fontFamily = Poppins,
-                                        fontWeight = FontWeight.Medium,
-                                        fontSize = 12.sp,
-                                        color = Color(0xFFEB0049)
+                            journey.superpowers.forEach {
+                                AssistChip(
+                                    onClick = {},
+                                    label = {
+                                        Text(
+                                            text = it.name,
+                                            fontFamily = Poppins,
+                                            fontWeight = FontWeight.Medium,
+                                            fontSize = 12.sp,
+                                            color = Color(0xFFEB0049)
+                                        )
+                                    },
+                                    border = AssistChipDefaults.assistChipBorder(
+                                        borderColor = Color(0xFFEB0049),
+                                        borderWidth = 1.dp
+                                    ),
+                                    shape = RoundedCornerShape(100.dp),
+                                    colors = AssistChipDefaults.assistChipColors(
+                                        containerColor = Color.Transparent
                                     )
-                                },
-                                border = AssistChipDefaults.assistChipBorder(
-                                    borderColor = Color(0xFFEB0049),
-                                    borderWidth = 1.dp
-                                ),
-                                shape = RoundedCornerShape(100.dp),
-                                colors = AssistChipDefaults.assistChipColors(
-                                    containerColor = Color.Transparent
                                 )
-                            )
+                            }
+
+
                         }
 
                         Row (

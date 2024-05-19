@@ -16,22 +16,23 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.journey.R
+import com.example.journey.screens.Routes
 
 @Composable
 fun CustomBottomAppBar(
     navController: NavHostController
 ){
-    var selected by remember { mutableIntStateOf(1) }
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentPage = navBackStackEntry?.destination?.route
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -49,10 +50,12 @@ fun CustomBottomAppBar(
         Box(
             modifier = Modifier
                 .size(50.dp)
-                .background(color = if (selected==0) Color(0xFFEB0049) else Color(0xFFA0A4A3), shape = CircleShape)
+                .background(
+                    color = if (currentPage == Routes.PostsList.route) Color(0xFFEB0049) else Color(0xFFA0A4A3),
+                    shape = CircleShape
+                )
                 .clickable {
-                    selected = 0
-                    navController.navigate("postslist")
+                    navController.navigate(Routes.PostsList.route)
                 }
         ) {
             Icon(
@@ -66,10 +69,12 @@ fun CustomBottomAppBar(
         Box(
             modifier = Modifier
                 .size(50.dp)
-                .background(color = if (selected==1) Color(0xFFEB0049) else Color(0xFFA0A4A3), shape = CircleShape)
+                .background(
+                    color = if (currentPage == Routes.JourneysList.route) Color(0xFFEB0049) else Color(0xFFA0A4A3),
+                    shape = CircleShape
+                )
                 .clickable {
-                    selected = 1
-                    navController.navigate("journeyslist")
+                    navController.navigate(Routes.JourneysList.route)
                 },
             contentAlignment = Alignment.Center
         ) {
@@ -84,9 +89,12 @@ fun CustomBottomAppBar(
         Box(
             modifier = Modifier
                 .size(50.dp)
-                .background(color = if (selected==2) Color(0xFFEB0049) else Color(0xFFA0A4A3), shape = CircleShape)
+                .background(
+                    color = if (currentPage == Routes.Profile.route) Color(0xFFEB0049) else Color(0xFFA0A4A3),
+                    shape = CircleShape
+                )
                 .clickable {
-                    selected = 2
+                    navController.navigate(Routes.Profile.route)
                 }
         ) {
             Icon(
@@ -100,9 +108,12 @@ fun CustomBottomAppBar(
         Box(
             modifier = Modifier
                 .size(50.dp)
-                .background(color = if (selected==3) Color(0xFFEB0049) else Color(0xFFA0A4A3), shape = CircleShape)
+                .background(
+                    color = if (currentPage == Routes.Ranking.route) Color(0xFFEB0049) else Color(0xFFA0A4A3),
+                    shape = CircleShape
+                )
                 .clickable {
-                    selected = 3
+                    navController.navigate(Routes.Ranking.route)
                 }
         ) {
             Icon(
@@ -116,21 +127,22 @@ fun CustomBottomAppBar(
         Box(
             modifier = Modifier
                 .size(52.dp)
-                .background(color = if (selected==4) Color(0xFFEB0049) else Color(0xFFA0A4A3),
+                .background(
+                    color = if (currentPage == Routes.Creation.route) Color(0xFF1448B8) else Color(0xFFA0A4A3),
                     shape = RoundedCornerShape(20.dp)
                 )
                 .clickable {
-                    selected = 4
+                    navController.navigate(Routes.Creation.route)
                 }
         ) {
             Icon(
                 imageVector = Icons.Default.Add,
                 contentDescription = null,
                 tint = Color.White,
-                modifier = Modifier.align(Alignment.Center).size(30.dp)
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .size(30.dp)
             )
         }
-
-
     }
 }

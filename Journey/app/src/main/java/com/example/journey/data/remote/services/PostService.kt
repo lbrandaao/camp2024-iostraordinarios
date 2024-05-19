@@ -1,6 +1,6 @@
 package com.example.journey.data.remote.services
 
-import com.example.journey.data.models.Journey
+import com.example.journey.data.models.Post
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -8,21 +8,21 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 
-interface JourneyService {
-    @GET("journeys")
-    suspend fun getAllJourneys(
+interface PostService {
+    @GET("posts")
+    suspend fun getAllPosts(
         @Header("Authorization") token: String
-    ): Response<List<Journey>>
+    ): Response<List<Post>>
 
-    @POST("journeys")
-    suspend fun createJourney(
+    @POST("posts")
+    suspend fun createPost(
         @Header("Authorization") token: String,
-        @Body newJourney: Journey
-    ): Response<Journey>
+        @Body newPost: Post
+    ): Response<Post>
 
-    @GET("journeys/{id}")
-    suspend fun getJourney(
+    @GET("posts/{id}")
+    suspend fun getPost(
         @Header("Authorization") token: String,
         @Path("id") id: Int
-    ): Response<Journey>
+    ): Response<Post>
 }
