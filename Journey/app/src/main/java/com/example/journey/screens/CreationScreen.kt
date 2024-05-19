@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -56,8 +57,8 @@ fun CreationScreen(
     superpowerViewModel: SuperpowerViewModel,
     onBackButtonClick: () -> Unit,
     onCreationConfirm: () -> Unit,
-){
-    /*if (
+) {
+    if (
         tagViewModel.listTags() == null ||
         superpowerViewModel.listSuperpowers() == null
     ) {
@@ -71,7 +72,7 @@ fun CreationScreen(
         userViewModel.isReady() &&
         tagViewModel.isReady() &&
         superpowerViewModel.isReady()
-        ) {*/
+    ) {
         var entityCreated by remember {
             mutableStateOf("")
         }
@@ -90,7 +91,7 @@ fun CreationScreen(
 
         val creationOptions = if (
             userViewModel.getAuthenticatedUser()?.role == "user"
-            ) listOf("Post") else listOf("Post", "Jornada")
+        ) listOf("Post") else listOf("Post", "Jornada")
 
         Column(
             modifier = Modifier
@@ -98,13 +99,12 @@ fun CreationScreen(
                 .padding(horizontal = 25.dp)
                 .padding(top = paddingValues.calculateTopPadding() + 50.dp)
         ) {
-
-            Row (
+            Row(
                 modifier = Modifier
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
-            ){
+            ) {
                 Text(
                     text = "Criar",
                     fontFamily = Poppins,
@@ -134,14 +134,14 @@ fun CreationScreen(
 
             CustomLongTextField(
                 value = description,
-                onValueChange = {description = it},
+                onValueChange = { description = it },
                 placeholder = "Descrição",
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp)
                     .height(160.dp)
             )
-            
+
             CustomTextField(
                 value = "",
                 onValueChange = {},
@@ -174,12 +174,12 @@ fun CreationScreen(
                 }
             )
 
-            Row (
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 40.dp, top = 60.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
-            ){
+            ) {
                 OutlinedButton(
                     onClick = {
                         onBackButtonClick.invoke()
@@ -207,7 +207,7 @@ fun CreationScreen(
                             entityCreated.isNotBlank() &&
                             title.isNotBlank() &&
                             description.isNotBlank()
-                            ) {
+                        ) {
                             if (entityCreated == "Jornada")
                                 journeyViewModel.createJourney(
                                     context,
@@ -218,7 +218,7 @@ fun CreationScreen(
                                         creator = userViewModel.getAuthenticatedUser()!!,
                                         superpowers = selectedSuperpowers,
                                         tags = selectedTags
-                                    ) ,
+                                    ),
                                     onCreateConfirm = onCreationConfirm
                                 )
                             else
@@ -230,7 +230,7 @@ fun CreationScreen(
                                         creator = userViewModel.getAuthenticatedUser()!!,
                                         superpowers = selectedSuperpowers,
                                         tags = selectedTags
-                                    ) ,
+                                    ),
                                     onCreateConfirm = onCreationConfirm
                                 )
                         }
@@ -254,7 +254,7 @@ fun CreationScreen(
             }
 
         }
-   /* } else {
+    } else {
         Column(
             modifier = Modifier
                 .fillMaxSize(),
@@ -267,7 +267,7 @@ fun CreationScreen(
                 strokeWidth = 8.dp
             )
         }
-    }*/
+    }
 }
 
 @Preview

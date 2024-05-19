@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,242 +29,107 @@ import com.example.journey.data.models.Superpower
 import com.example.journey.data.models.Tag
 import com.example.journey.data.models.UserResponse
 import com.example.journey.ui.theme.Poppins
+import com.example.journey.viewModels.PostViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
 import kotlin.math.absoluteValue
 
-
-val lista = listOf(
-    Post(
-        title = "",
-        description = "Recentemente, participei de um projeto que envolveu a reestruturação de " +
-                "alguns dos nosso processos e, utilizando princípios de inovação, propusemos uma " +
-                "abordagem totalmente nova, focada na personalização e na experiência do cliente.\n" +
-                "Apresentamos um plano que não apenas solucionou nosso problema, mas também " +
-                "melhorou a satisfação do cliente e aumentou a eficiência operacional. " +
-                "Foi gratificante ver como a busca por novas ideias e soluções trouxe resultados " +
-                "tangíveis para a empresa.",
-        superpowers = listOf(
-            Superpower(0, "As maravilhosas asas para voar")
-        ),
-        tags = listOf(
-            Tag(0, "Desenvolvimento pessoal"),
-            Tag(0, "Surpreender"),
-            Tag(0, "Inovação")
-        ),
-        creator = UserResponse(
-            id = 0,
-            fullName = "Amélia dos Santos",
-            email = "",
-            position = "",
-            role = "",
-            nuts = 0,
-            superpower = Superpower(0, "As maravilhosas asas para voar"),
-            tags = listOf(
-                Tag(0, "Desenvolvimento pessoal"),
-                Tag(0, "Surpreender"),
-                Tag(0, "Inovação")
-            ),
-            bio = "",
-            interactionsCount = 0,
-            score = 0,
-            missionsCompleted = 0
-        )
-
-    ),
-    Post(
-        title = "",
-        description = "Recentemente, participei de um projeto que envolveu a reestruturação de " +
-                "alguns dos nosso processos e, utilizando princípios de inovação, propusemos uma " +
-                "abordagem totalmente nova, focada na personalização e na experiência do cliente.\n" +
-                "Apresentamos um plano que não apenas solucionou nosso problema, mas também " +
-                "melhorou a satisfação do cliente e aumentou a eficiência operacional. " +
-                "Foi gratificante ver como a busca por novas ideias e soluções trouxe resultados " +
-                "tangíveis para a empresa.",
-        superpowers = listOf(
-            Superpower(0, "As maravilhosas asas para voar")
-        ),
-        tags = listOf(
-            Tag(0, "Desenvolvimento pessoal"),
-            Tag(0, "Surpreender"),
-            Tag(0, "Inovação")
-        ),
-        creator = UserResponse(
-            id = 0,
-            fullName = "Amélia dos Santos",
-            email = "",
-            position = "",
-            role = "",
-            nuts = 0,
-            superpower = Superpower(0, "As maravilhosas asas para voar"),
-            tags = listOf(
-                Tag(0, "Desenvolvimento pessoal"),
-                Tag(0, "Surpreender"),
-                Tag(0, "Inovação")
-            ),
-            bio = "",
-            interactionsCount = 0,
-            score = 0,
-            missionsCompleted = 0
-        )
-
-    ),
-    Post(
-        title = "",
-        description = "Recentemente, participei de um projeto que envolveu a reestruturação de " +
-                "alguns dos nosso processos e, utilizando princípios de inovação, propusemos uma " +
-                "abordagem totalmente nova, focada na personalização e na experiência do cliente.\n" +
-                "Apresentamos um plano que não apenas solucionou nosso problema, mas também " +
-                "melhorou a satisfação do cliente e aumentou a eficiência operacional. " +
-                "Foi gratificante ver como a busca por novas ideias e soluções trouxe resultados " +
-                "tangíveis para a empresa.",
-        superpowers = listOf(
-            Superpower(0, "As maravilhosas asas para voar")
-        ),
-        tags = listOf(
-            Tag(0, "Desenvolvimento pessoal"),
-            Tag(0, "Surpreender"),
-            Tag(0, "Inovação")
-        ),
-        creator = UserResponse(
-            id = 0,
-            fullName = "Amélia dos Santos",
-            email = "",
-            position = "",
-            role = "",
-            nuts = 0,
-            superpower = Superpower(0, "As maravilhosas asas para voar"),
-            tags = listOf(
-                Tag(0, "Desenvolvimento pessoal"),
-                Tag(0, "Surpreender"),
-                Tag(0, "Inovação")
-            ),
-            bio = "",
-            interactionsCount = 0,
-            score = 0,
-            missionsCompleted = 0
-        )
-
-    ),
-    Post(
-        title = "",
-        description = "Recentemente, participei de um projeto que envolveu a reestruturação de " +
-                "alguns dos nosso processos e, utilizando princípios de inovação, propusemos uma " +
-                "abordagem totalmente nova, focada na personalização e na experiência do cliente.\n" +
-                "Apresentamos um plano que não apenas solucionou nosso problema, mas também " +
-                "melhorou a satisfação do cliente e aumentou a eficiência operacional. " +
-                "Foi gratificante ver como a busca por novas ideias e soluções trouxe resultados " +
-                "tangíveis para a empresa.",
-        superpowers = listOf(
-            Superpower(0, "As maravilhosas asas para voar")
-        ),
-        tags = listOf(
-            Tag(0, "Desenvolvimento pessoal"),
-            Tag(0, "Surpreender"),
-            Tag(0, "Inovação")
-        ),
-        creator = UserResponse(
-            id = 0,
-            fullName = "Amélia dos Santos",
-            email = "",
-            position = "",
-            role = "",
-            nuts = 0,
-            superpower = Superpower(0, "As maravilhosas asas para voar"),
-            tags = listOf(
-                Tag(0, "Desenvolvimento pessoal"),
-                Tag(0, "Surpreender"),
-                Tag(0, "Inovação")
-            ),
-            bio = "",
-            interactionsCount = 0,
-            score = 0,
-            missionsCompleted = 0
-        )
-
-    )
-)
-
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun PostsListScreen(
     paddingValues: PaddingValues,
+    postViewModel: PostViewModel,
     onSeeMoreButtonClick: () -> Unit
 ) {
-    val pagerState = rememberPagerState(pageCount = lista.size)
+    if (postViewModel.listPosts() == null) postViewModel.loadPosts()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                top = paddingValues.calculateTopPadding() + 60.dp,
-                bottom = paddingValues.calculateBottomPadding() + 30.dp
-            ),
-        verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Últimos destaques",
-            fontWeight = FontWeight.SemiBold,
-            fontSize = 32.sp,
-            color = Color.Black,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 25.dp)
-        )
+    if (postViewModel.isReady()) {
+        val postsList = postViewModel.listPosts() ?: listOf()
+        val pagerState = rememberPagerState(pageCount = postsList.size)
 
-        HorizontalPager(
-            state = pagerState,
+        Column(
             modifier = Modifier
-                .fillMaxWidth(),
-            itemSpacing = 0.dp
-        ) { page ->
-            lista.forEach {
-                PostComponent(
-                    post = it,
-                    modifier = Modifier
-                        .graphicsLayer {
-                            val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
-                            lerp(
-                                start = 0.8f,
-                                stop = 1f,
-                                fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                .fillMaxSize()
+                .padding(
+                    top = paddingValues.calculateTopPadding() + 60.dp,
+                    bottom = paddingValues.calculateBottomPadding() + 30.dp
+                ),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Últimos destaques",
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 32.sp,
+                color = Color.Black,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 25.dp)
+            )
+
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier
+                    .fillMaxWidth(),
+                itemSpacing = 0.dp
+            ) { page ->
+                postsList.forEach {
+                    PostComponent(
+                        post = it,
+                        modifier = Modifier
+                            .graphicsLayer {
+                                val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
+                                lerp(
+                                    start = 0.8f,
+                                    stop = 1f,
+                                    fraction = 1f - pageOffset.coerceIn(0f, 1f)
                                 )
-                                .also{ scale ->
-                                    scaleX = scale
-                                    scaleY = scale
-                                }
-                        }
+                                    .also { scale ->
+                                        scaleX = scale
+                                        scaleY = scale
+                                    }
+                            }
+                    )
+                }
+            }
+
+            OutlinedButton(
+                onClick = {
+                    onSeeMoreButtonClick.invoke()
+                },
+                colors = ButtonDefaults.outlinedButtonColors(
+                    containerColor = Color.Transparent
+                ),
+                border = BorderStroke(1.dp, Color(0xFFFF85AB)),
+                shape = RoundedCornerShape(24.dp),
+                modifier = Modifier
+                    .size(width = 160.dp, height = 40.dp)
+            ) {
+                Text(
+                    text = "Ver mais",
+                    fontFamily = Poppins,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 16.sp,
+                    color = Color(0xFFFF85AB)
                 )
             }
         }
-
-
-        OutlinedButton(
-            onClick = {
-                      onSeeMoreButtonClick.invoke()
-            },
-            colors = ButtonDefaults.outlinedButtonColors(
-                containerColor = Color.Transparent
-            ),
-            border = BorderStroke(1.dp, Color(0xFFFF85AB)),
-            shape = RoundedCornerShape(24.dp),
+    } else {
+        Column(
             modifier = Modifier
-                .size(width = 160.dp, height = 40.dp)
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Ver mais",
-                fontFamily = Poppins,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 16.sp,
-                color = Color(0xFFFF85AB)
+            CircularProgressIndicator(
+                modifier = Modifier.size(120.dp),
+                color = Color.Black,
+                strokeWidth = 8.dp
             )
         }
     }
-
-
 }
 
 @Preview
@@ -271,6 +137,7 @@ fun PostsListScreen(
 fun PostsListScreenPreview() {
     PostsListScreen(
         paddingValues = PaddingValues(),
+        postViewModel = PostViewModel(),
         onSeeMoreButtonClick = {}
     )
 }

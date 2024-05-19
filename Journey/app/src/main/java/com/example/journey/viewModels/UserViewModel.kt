@@ -8,10 +8,37 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.journey.MainActivity
 import com.example.journey.data.models.NewUserRequest
+import com.example.journey.data.models.Superpower
+import com.example.journey.data.models.Tag
 import com.example.journey.data.models.UserResponse
 import com.example.journey.data.repository.UserRepository
 import kotlinx.coroutines.launch
 
+private val user = UserResponse(
+    id = 1,
+    fullName = "Leonardo B. Brandão",
+    email = "leonardobbrandao@hotmail.com",
+    position = "Desenvolvedor Mobile",
+    role = "user",
+    nuts = 1355,
+    superpower = Superpower(5, "O indestrutível laço da evolução"),
+    tags = listOf(
+        Tag(1, "Transformar"),
+        Tag(2, "Cuidar"),
+        Tag(3, "Diversificar"),
+        Tag(4, "Respeitar"),
+        Tag(5, "Produzir bem"),
+        Tag(6, "Criatividade"),
+        Tag(7, "Inovação"),
+        Tag(8, "Excelência"),
+        Tag(9, "Reconhecimento"),
+        Tag(10, "Surpreender")
+    ),
+    bio = "Fala, galera! Sou o Léo",
+    interactionsCount = 122,
+    missionsCompleted = 19,
+    score = 122+19
+)
 class UserViewModel : ViewModel() {
     private val _userRepository = UserRepository()
 
@@ -21,7 +48,7 @@ class UserViewModel : ViewModel() {
     private var _newUserPosition: String = ""
     private var _newUserRole: String = ""
 
-    private var _authenticatedUser: UserResponse? = null
+    private var _authenticatedUser: UserResponse? = user
 
     private var _viewModelIsReady by mutableStateOf(true)
 
@@ -58,7 +85,12 @@ class UserViewModel : ViewModel() {
             val newUserIsCreated = _userRepository.createUser(newUserRequest)
 
             if (newUserIsCreated) {
-                authenticateUser(newUserRequest.email, newUserRequest.password, context, onRegistrationConfirm)
+                authenticateUser(
+                    newUserRequest.email,
+                    newUserRequest.password,
+                    context,
+                    onRegistrationConfirm
+                )
             } else Toast.makeText(
                 context,
                 "Algo deu errado.",

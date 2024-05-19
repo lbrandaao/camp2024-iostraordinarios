@@ -24,6 +24,7 @@ import com.example.journey.screens.JourneysListScreen
 import com.example.journey.screens.LoginScreen
 import com.example.journey.screens.OnBoardingScreen
 import com.example.journey.screens.PostsListScreen
+import com.example.journey.screens.ProfileScreen
 import com.example.journey.screens.RegistrationScreen
 import com.example.journey.screens.Routes
 import com.example.journey.ui.theme.JourneyTheme
@@ -150,7 +151,6 @@ class MainActivity : ComponentActivity() {
                         Scaffold(
                             topBar = {
                                 CustomTopAppBar(
-                                    navControllerNoAppBars = navControllerNoAppBars,
                                     navControllerWithAppBars = navControllerWithAppBars,
                                     userViewModel = userViewModel
                                 )
@@ -169,7 +169,7 @@ class MainActivity : ComponentActivity() {
                             ) {
                                 NavHost(
                                     navController = navControllerWithAppBars,
-                                    startDestination = Routes.PostsList.route
+                                    startDestination = Routes.Profile.route
                                 ) {
                                     composable(Routes.JourneysList.route) {
                                         JourneysListScreen(
@@ -187,6 +187,7 @@ class MainActivity : ComponentActivity() {
                                     composable(Routes.PostsList.route) {
                                         PostsListScreen(
                                             paddingValues = paddingValues,
+                                            postViewModel = postViewModel,
                                             onSeeMoreButtonClick = {
                                                 startDestinationWithAppBars = Routes.PostsList.route
                                                 navControllerWithAppBars.popBackStack()
@@ -195,7 +196,11 @@ class MainActivity : ComponentActivity() {
                                         )
                                     }
 
-                                    composable(Routes.Profile.route) {}
+                                    composable(Routes.Profile.route) {
+                                        ProfileScreen(
+                                            paddingValues = paddingValues,
+                                            userViewModel = userViewModel)
+                                    }
 
                                     composable(Routes.Ranking.route) {}
 

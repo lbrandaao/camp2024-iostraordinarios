@@ -19,7 +19,7 @@ object RetrofitInstance {
 
     private val retrofit = Retrofit
         .Builder()
-        .baseUrl("https://ioasys-journey.onrender.com/")
+        .baseUrl("https://ioasys-journey-2.onrender.com/")
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
