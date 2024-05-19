@@ -27,7 +27,7 @@ import com.example.journey.ui.theme.Poppins
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomDropDownMenu(
+fun CustomDropDownMenuSuperpowers(
     value: String,
     onItemClick: (String) -> Unit,
     label: String,

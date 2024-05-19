@@ -22,12 +22,16 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.journey.R
 import com.example.journey.ui.theme.Poppins
+import com.example.journey.viewModels.UserViewModel
 
 @Composable
 fun CustomTopAppBar(
     navControllerNoAppBars: NavHostController,
-    navControllerWithAppBars: NavHostController
+    navControllerWithAppBars: NavHostController,
+    userViewModel: UserViewModel
 ) {
+    if (userViewModel.getAuthenticatedUser() == null) userViewModel.setAuthenticatedUser()
+
     Row(
         modifier = Modifier
             .padding(horizontal = 16.dp)
@@ -49,34 +53,36 @@ fun CustomTopAppBar(
             )
         }
 
-        Row(
-            modifier = Modifier
-                .size(width = 85.dp, height = 40.dp)
-                .background(
-                    color = Color.Black,
-                    shape = CircleShape
+        if (userViewModel.isReady()) {
+            Row(
+                modifier = Modifier
+                    .size(width = 85.dp, height = 40.dp)
+                    .background(
+                        color = Color.Black,
+                        shape = CircleShape
+                    )
+                    .padding(horizontal = 12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = userViewModel.getAuthenticatedUser()?.nuts.toString(),
+                    fontFamily = Poppins,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 16.sp,
+                    color = Color.White,
+                    modifier = Modifier
+                        .padding(top = 3.dp)
                 )
-                .padding(horizontal = 12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = "537",
-                fontFamily = Poppins,
-                fontWeight = FontWeight.Medium,
-                fontSize = 16.sp,
-                color = Color.White,
-                modifier = Modifier
-                    .padding(top = 3.dp)
-            )
 
-            Icon(
-                painter = painterResource(id = R.drawable.nut_icon),
-                contentDescription = "Ícone não clicável de uma noz.",
-                tint = Color.White,
-                modifier = Modifier
-                    .size(30.dp)
-            )
+                Icon(
+                    painter = painterResource(id = R.drawable.nut_icon),
+                    contentDescription = "Ícone não clicável de uma noz.",
+                    tint = Color.White,
+                    modifier = Modifier
+                        .size(30.dp)
+                )
+            }
         }
     }
 

@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.journey.MainActivity
 import com.example.journey.R
-import com.example.journey.components.textfields.CustomDropDownMenu
+import com.example.journey.components.textfields.CustomDropDownMenuSuperpowers
 import com.example.journey.components.textfields.CustomTextField
 import com.example.journey.ui.theme.Poppins
 import com.example.journey.ui.theme.PrimaryBackgroundColor
@@ -151,7 +151,7 @@ fun RegistrationScreen(
             }
 
             item {
-                CustomDropDownMenu(
+                CustomDropDownMenuSuperpowers(
                     value = occupationValue,
                     onItemClick = {
                         occupationValue = it
