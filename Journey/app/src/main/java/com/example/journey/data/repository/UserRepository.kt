@@ -46,4 +46,11 @@ class UserRepository {
 
         return authenticatedUser
     }
+
+    suspend fun listAllUsers(): List<UserResponse>? {
+        val requestToken = "Bearer " + TokenManager.getToken()
+        val response = _userService.getAllUsers(requestToken)
+
+        return response.body()
+    }
 }

@@ -36,9 +36,10 @@ import com.example.journey.viewModels.TagViewModel
 import com.example.journey.viewModels.UserViewModel
 
 /*
-* Tela perfil, criação de post, carrossel de post
-*
-* Tela de Criação de Posts: adicionar nozes e conexão com API
+* (1) Mudanças na API: Alterar Services e Models se necessário e TESTAR
+* (2) TELA DE RANKING: aguardando endpoint pra puxar ranking
+* (3) Tela de Completar Jornada: Aguardando rota pra conectar com API
+* (4) Tela de Feed (deixar parte de pesquisa não funcional por enquanto)
 * */
 class MainActivity : ComponentActivity() {
     private val userViewModel by viewModels<UserViewModel>()
@@ -135,10 +136,12 @@ class MainActivity : ComponentActivity() {
 
                     composable(Routes.CompleteJourney.route) {
                         CompleteJourneyScreen(
+                            userViewModel = userViewModel,
+                            journeyViewModel = journeyViewModel,
                             onBackClick = {
                                 navControllerNoAppBars.popBackStack()
                             },
-                            onSendClick = {
+                            onJourneyCompleted = {
                                 navControllerNoAppBars.popBackStack()
                                 navControllerNoAppBars.popBackStack()
                             }
@@ -169,7 +172,7 @@ class MainActivity : ComponentActivity() {
                             ) {
                                 NavHost(
                                     navController = navControllerWithAppBars,
-                                    startDestination = Routes.Profile.route
+                                    startDestination = Routes.JourneysList.route
                                 ) {
                                     composable(Routes.JourneysList.route) {
                                         JourneysListScreen(

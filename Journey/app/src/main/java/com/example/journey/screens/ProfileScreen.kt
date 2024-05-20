@@ -130,7 +130,8 @@ fun ProfileScreen(
                         fontWeight = FontWeight.Medium,
                         fontSize = 15.sp,
                         modifier = Modifier
-                            .padding(top = 5.dp)
+                            .padding(top = 5.dp),
+                        color = Color.Black
                     )
 
                     Row(

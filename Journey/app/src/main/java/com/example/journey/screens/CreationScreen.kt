@@ -1,6 +1,10 @@
 package com.example.journey.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -11,8 +15,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -21,17 +28,23 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.journey.MainActivity
+import com.example.journey.R
 import com.example.journey.components.textfields.CustomDropDownMenuCreation
 import com.example.journey.components.textfields.CustomLongTextField
 import com.example.journey.components.textfields.CustomTextField
@@ -85,174 +98,390 @@ fun CreationScreen(
             mutableStateOf("")
         }
 
-        val selectedTags = mutableListOf<Tag>()
+        val allSuperpowersList = superpowerViewModel.listSuperpowers() ?: listOf()
 
-        val selectedSuperpowers = mutableListOf<Superpower>()
+        var superpowerQuery by remember {
+            mutableStateOf("")
+        }
+
+        var superpowerQueryResults by remember {
+            mutableStateOf(listOf<Superpower>())
+        }
+
+        val selectedSuperpowers = remember {
+            mutableStateListOf<Superpower>()
+        }
+
+        val allTagsList = tagViewModel.listTags() ?: listOf()
+
+        var tagQuery by remember {
+            mutableStateOf("")
+        }
+
+        var tagQueryResults by remember {
+            mutableStateOf(listOf<Tag>())
+        }
+
+        val selectedTags = remember {
+            mutableStateListOf<Tag>()
+        }
+
+        var nutsText by remember {
+            mutableStateOf("")
+        }
 
         val creationOptions = if (
             userViewModel.getAuthenticatedUser()?.role == "user"
         ) listOf("Post") else listOf("Post", "Jornada")
 
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 25.dp)
-                .padding(top = paddingValues.calculateTopPadding() + 50.dp)
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = "Criar",
-                    fontFamily = Poppins,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 24.sp,
-                    color = Color.Black
-                )
 
-                CustomDropDownMenuCreation(
-                    value = entityCreated,
-                    onItemClick = { entityCreated = it },
-                    placeholder = "Novo",
-                    dropDownItemsTextList = creationOptions,
+            item {
+                Row(
                     modifier = Modifier
-                        .width(135.dp)
+                        .fillMaxWidth()
+                        .padding(top = paddingValues.calculateTopPadding() + 50.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "Criar",
+                        fontFamily = Poppins,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 24.sp,
+                        color = Color.Black
+                    )
+
+                    CustomDropDownMenuCreation(
+                        value = entityCreated,
+                        onItemClick = { entityCreated = it },
+                        placeholder = "Novo",
+                        dropDownItemsTextList = creationOptions,
+                        modifier = Modifier
+                            .width(135.dp)
+                    )
+                }
+            }
+
+            item {
+                CustomTextField(
+                    value = title,
+                    onValueChange = { title = it },
+                    label = "",
+                    placeholder = "Título",
+                    modifier = Modifier
+                        .padding(top = 10.dp)
                 )
             }
 
-            CustomTextField(
-                value = title,
-                onValueChange = { title = it },
-                label = "",
-                placeholder = "Título",
-                modifier = Modifier
-                    .padding(top = 10.dp)
-            )
-
-            CustomLongTextField(
-                value = description,
-                onValueChange = { description = it },
-                placeholder = "Descrição",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp)
-                    .height(160.dp)
-            )
-
-            CustomTextField(
-                value = "",
-                onValueChange = {},
-                label = "",
-                placeholder = "Adicionar tags",
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = "Ícone não clicável",
-                        tint = Color(0xFF828282),
-                        modifier = Modifier
-                            .size(32.dp)
-                    )
-                }
-            )
-
-            CustomTextField(
-                value = "",
-                onValueChange = {},
-                label = "",
-                placeholder = "Adicionar superpoderes",
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = "Ícone não clicável",
-                        tint = Color(0xFF828282),
-                        modifier = Modifier
-                            .size(32.dp)
-                    )
-                }
-            )
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 40.dp, top = 60.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                OutlinedButton(
-                    onClick = {
-                        onBackButtonClick.invoke()
-                    },
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = Color.Transparent
-                    ),
-                    border = BorderStroke(1.dp, Color(0xFF759CF0)),
-                    shape = RoundedCornerShape(24.dp),
+            item {
+                CustomLongTextField(
+                    value = description,
+                    onValueChange = { description = it },
+                    placeholder = "Descrição",
                     modifier = Modifier
-                        .size(width = 160.dp, height = 40.dp)
-                ) {
-                    Text(
-                        text = "Voltar",
-                        fontFamily = Poppins,
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 16.sp,
-                        color = Color(0xFF759CF0)
-                    )
-                }
+                        .fillMaxWidth()
+                        .padding(top = 16.dp)
+                        .height(160.dp)
+                )
+            }
 
-                OutlinedButton(
-                    onClick = {
-                        if (
-                            entityCreated.isNotBlank() &&
-                            title.isNotBlank() &&
-                            description.isNotBlank()
-                        ) {
-                            if (entityCreated == "Jornada")
-                                journeyViewModel.createJourney(
-                                    context,
-                                    journey = Journey(
-                                        title = title,
-                                        description = description,
-                                        nuts = 20,
-                                        creator = userViewModel.getAuthenticatedUser()!!,
-                                        superpowers = selectedSuperpowers,
-                                        tags = selectedTags
-                                    ),
-                                    onCreateConfirm = onCreationConfirm
-                                )
-                            else
-                                postViewModel.createPost(
-                                    context,
-                                    post = Post(
-                                        title = title,
-                                        description = description,
-                                        creator = userViewModel.getAuthenticatedUser()!!,
-                                        superpowers = selectedSuperpowers,
-                                        tags = selectedTags
-                                    ),
-                                    onCreateConfirm = onCreationConfirm
-                                )
+            item {
+                CustomTextField(
+                    value = tagQuery,
+                    onValueChange = {
+                        tagQuery = it
+                        tagQueryResults = if (tagQuery.length >= 3) {
+                            allTagsList.filter { tag ->
+                                tag.name.contains(tagQuery, ignoreCase = true)
+                            }.take(3)
+                        } else {
+                            listOf()
                         }
                     },
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = Color(0xFF306BE9)
-                    ),
-                    border = BorderStroke(1.dp, Color(0xFF306BE9)),
-                    shape = RoundedCornerShape(24.dp),
-                    modifier = Modifier
-                        .size(width = 160.dp, height = 40.dp)
-                ) {
-                    Text(
-                        text = "Publicar",
-                        fontFamily = Poppins,
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 16.sp,
-                        color = Color.White
+                    label = "",
+                    placeholder = "Adicionar tags",
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Ícone não clicável",
+                            tint = Color(0xFF828282),
+                            modifier = Modifier
+                                .size(32.dp)
+                        )
+                    }
+                )
+
+                if (tagQueryResults.isNotEmpty()) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(180.dp)
+                            .background(Color.White, shape = RoundedCornerShape(8.dp))
+                            .padding(5.dp),
+                        verticalArrangement = Arrangement.spacedBy(15.dp)
+                    ) {
+                        items(tagQueryResults.size) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .border(
+                                        width = 1.dp,
+                                        color =
+                                        if (selectedTags.contains(tagQueryResults[it])) Color(
+                                            0xFF1448B8
+                                        )
+                                        else Color(0xFFE0E0E0),
+                                        shape = RoundedCornerShape(8.dp)
+                                    )
+                                    .background(Color.White, shape = RoundedCornerShape(8.dp))
+                                    .padding(10.dp)
+                                    .clickable {
+                                        if (selectedTags.contains(tagQueryResults[it])) {
+                                            selectedTags -= tagQueryResults[it]
+                                        } else {
+                                            selectedTags += tagQueryResults[it]
+                                        }
+                                    },
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = tagQueryResults[it].name,
+                                    fontFamily = Poppins,
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = 14.sp,
+                                    color = if (selectedTags.contains(tagQueryResults[it])) Color(
+                                        0xFF1448B8
+                                    ) else Color.Black,
+                                    modifier = Modifier.fillMaxWidth(0.75f),
+                                    overflow = TextOverflow.Ellipsis
+                                )
+
+                                if (selectedTags.contains(tagQueryResults[it])) {
+                                    Icon(
+                                        imageVector = Icons.Default.Clear,
+                                        contentDescription = "Ícone para remoção da tag",
+                                        tint = Color(0xFF1448B8)
+                                    )
+                                }
+                            }
+
+
+                        }
+                    }
+                }
+            }
+
+            item {
+                CustomTextField(
+                    value = superpowerQuery,
+                    onValueChange = {
+                        superpowerQuery = it
+                        superpowerQueryResults = if (superpowerQuery.length >= 3) {
+                            allSuperpowersList.filter { superpower ->
+                                superpower.name.contains(superpowerQuery, ignoreCase = true)
+                            }.take(3)
+                        } else {
+                            listOf()
+                        }
+                    },
+                    label = "",
+                    placeholder = "Adicionar superpoderes",
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Ícone não clicável",
+                            tint = Color(0xFF828282),
+                            modifier = Modifier
+                                .size(32.dp)
+                        )
+                    }
+                )
+
+                if (superpowerQueryResults.isNotEmpty()) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(180.dp)
+                            .background(Color.White, shape = RoundedCornerShape(8.dp))
+                            .padding(5.dp),
+                        verticalArrangement = Arrangement.spacedBy(15.dp)
+                    ) {
+                        items(superpowerQueryResults.size) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .border(
+                                        width = 1.dp,
+                                        color =
+                                        if (selectedSuperpowers.contains(superpowerQueryResults[it])) Color(
+                                            0xFF1448B8
+                                        )
+                                        else Color(0xFFE0E0E0),
+                                        shape = RoundedCornerShape(8.dp)
+                                    )
+                                    .background(Color.White, shape = RoundedCornerShape(8.dp))
+                                    .padding(10.dp)
+                                    .clickable {
+                                        if (selectedSuperpowers.contains(superpowerQueryResults[it])) {
+                                            selectedSuperpowers -= superpowerQueryResults[it]
+                                        } else {
+                                            selectedSuperpowers += superpowerQueryResults[it]
+                                        }
+                                    },
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = superpowerQueryResults[it].name,
+                                    fontFamily = Poppins,
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = 14.sp,
+                                    color = if (selectedSuperpowers.contains(superpowerQueryResults[it])) Color(
+                                        0xFF1448B8
+                                    ) else Color.Black,
+                                    modifier = Modifier.fillMaxWidth(0.75f),
+                                    overflow = TextOverflow.Ellipsis
+                                )
+
+                                if (selectedSuperpowers.contains(superpowerQueryResults[it])) {
+                                    Icon(
+                                        imageVector = Icons.Default.Clear,
+                                        contentDescription = "Ícone para remoção do superpoder",
+                                        tint = Color(0xFF1448B8)
+                                    )
+                                }
+                            }
+
+
+                        }
+                    }
+                }
+            }
+
+            if (entityCreated == "Jornada") {
+                item {
+                    CustomTextField(
+                        value = nutsText,
+                        onValueChange = {
+                            nutsText = it
+                        },
+                        label = "",
+                        placeholder = "Adicionar número de nozes",
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.nut_icon),
+                                contentDescription = "Ícone não clicável",
+                                tint = Color(0xFF828282),
+                                modifier = Modifier
+                                    .size(32.dp)
+                            )
+                        },
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Done
+                        )
                     )
                 }
             }
 
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            bottom = paddingValues.calculateBottomPadding() + 30.dp,
+                            top = 60.dp
+                        ),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    OutlinedButton(
+                        onClick = {
+                            onBackButtonClick.invoke()
+                        },
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            containerColor = Color.Transparent
+                        ),
+                        border = BorderStroke(1.dp, Color(0xFF759CF0)),
+                        shape = RoundedCornerShape(24.dp),
+                        modifier = Modifier
+                            .size(width = 160.dp, height = 40.dp)
+                    ) {
+                        Text(
+                            text = "Voltar",
+                            fontFamily = Poppins,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 16.sp,
+                            color = Color(0xFF759CF0)
+                        )
+                    }
+
+                    OutlinedButton(
+                        onClick = {
+                            if (
+                                entityCreated.isNotBlank() &&
+                                title.isNotBlank() &&
+                                description.isNotBlank()
+                            ) {
+                                if (entityCreated == "Post") {
+                                    postViewModel.createPost(
+                                        context,
+                                        post = Post(
+                                            title = title,
+                                            description = description,
+                                            creator = userViewModel.getAuthenticatedUser()!!,
+                                            superpowers = selectedSuperpowers,
+                                            tags = selectedTags
+                                        ),
+                                        onCreateConfirm = onCreationConfirm
+                                    )
+                                } else {
+                                    if (nutsText.isNotBlank()) {
+                                        journeyViewModel.createJourney(
+                                            context,
+                                            journey = Journey(
+                                                title = title,
+                                                description = description,
+                                                nuts = nutsText.toInt(),
+                                                creator = userViewModel.getAuthenticatedUser()!!,
+                                                superpowers = selectedSuperpowers,
+                                                tags = selectedTags
+                                            ),
+                                            onCreateConfirm = onCreationConfirm
+                                        )
+                                    } else Toast.makeText(
+                                        context,
+                                        "Preencha todos os campos",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            } else Toast.makeText(
+                                context,
+                                "Preencha todos os campos",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        },
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            containerColor = Color(0xFF306BE9)
+                        ),
+                        border = BorderStroke(1.dp, Color(0xFF306BE9)),
+                        shape = RoundedCornerShape(24.dp),
+                        modifier = Modifier
+                            .size(width = 160.dp, height = 40.dp)
+                    ) {
+                        Text(
+                            text = "Publicar",
+                            fontFamily = Poppins,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 16.sp,
+                            color = Color.White
+                        )
+                    }
+                }
+            }
         }
     } else {
         Column(

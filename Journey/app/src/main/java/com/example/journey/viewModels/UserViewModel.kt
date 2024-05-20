@@ -15,11 +15,11 @@ import com.example.journey.data.repository.UserRepository
 import kotlinx.coroutines.launch
 
 private val user = UserResponse(
-    id = 1,
+    id = 3,
     fullName = "Leonardo B. Brandão",
     email = "leonardobbrandao@hotmail.com",
     position = "Desenvolvedor Mobile",
-    role = "user",
+    role = "leader",
     nuts = 1355,
     superpower = Superpower(5, "O indestrutível laço da evolução"),
     tags = listOf(
@@ -39,6 +39,159 @@ private val user = UserResponse(
     missionsCompleted = 19,
     score = 122+19
 )
+
+private val lista = listOf(
+    UserResponse(
+        id = 1,
+        fullName = "Ana Carolina Borges",
+        email = "leonardobbrandao@hotmail.com",
+        position = "Desenvolvedor Mobile",
+        role = "leader",
+        nuts = 1355,
+        superpower = Superpower(5, "O indestrutível laço da evolução"),
+        tags = listOf(
+            Tag(1, "Transformar"),
+            Tag(2, "Cuidar"),
+            Tag(3, "Diversificar"),
+            Tag(4, "Respeitar"),
+            Tag(5, "Produzir bem"),
+            Tag(6, "Criatividade"),
+            Tag(7, "Inovação"),
+            Tag(8, "Excelência"),
+            Tag(9, "Reconhecimento"),
+            Tag(10, "Surpreender")
+        ),
+        bio = "Fala, galera! Sou o Léo",
+        interactionsCount = 122,
+        missionsCompleted = 19,
+        score = 122+19
+    ),
+    UserResponse(
+        id = 2,
+        fullName = "Pryscilla",
+        email = "leonardobbrandao@hotmail.com",
+        position = "Desenvolvedor Mobile",
+        role = "leader",
+        nuts = 1355,
+        superpower = Superpower(5, "O indestrutível laço da evolução"),
+        tags = listOf(
+            Tag(1, "Transformar"),
+            Tag(2, "Cuidar"),
+            Tag(3, "Diversificar"),
+            Tag(4, "Respeitar"),
+            Tag(5, "Produzir bem"),
+            Tag(6, "Criatividade"),
+            Tag(7, "Inovação"),
+            Tag(8, "Excelência"),
+            Tag(9, "Reconhecimento"),
+            Tag(10, "Surpreender")
+        ),
+        bio = "Fala, galera! Sou o Léo",
+        interactionsCount = 122,
+        missionsCompleted = 19,
+        score = 122+19
+    ),
+    UserResponse(
+        id = 3,
+        fullName = "Leonardo B. Brandão",
+        email = "leonardobbrandao@hotmail.com",
+        position = "Desenvolvedor Mobile",
+        role = "leader",
+        nuts = 1355,
+        superpower = Superpower(5, "O indestrutível laço da evolução"),
+        tags = listOf(
+            Tag(1, "Transformar"),
+            Tag(2, "Cuidar"),
+            Tag(3, "Diversificar"),
+            Tag(4, "Respeitar"),
+            Tag(5, "Produzir bem"),
+            Tag(6, "Criatividade"),
+            Tag(7, "Inovação"),
+            Tag(8, "Excelência"),
+            Tag(9, "Reconhecimento"),
+            Tag(10, "Surpreender")
+        ),
+        bio = "Fala, galera! Sou o Léo",
+        interactionsCount = 122,
+        missionsCompleted = 19,
+        score = 122+19
+    ),
+    UserResponse(
+        id = 4,
+        fullName = "Davi",
+        email = "leonardobbrandao@hotmail.com",
+        position = "Desenvolvedor Mobile",
+        role = "leader",
+        nuts = 1355,
+        superpower = Superpower(5, "O indestrutível laço da evolução"),
+        tags = listOf(
+            Tag(1, "Transformar"),
+            Tag(2, "Cuidar"),
+            Tag(3, "Diversificar"),
+            Tag(4, "Respeitar"),
+            Tag(5, "Produzir bem"),
+            Tag(6, "Criatividade"),
+            Tag(7, "Inovação"),
+            Tag(8, "Excelência"),
+            Tag(9, "Reconhecimento"),
+            Tag(10, "Surpreender")
+        ),
+        bio = "Fala, galera! Sou o Léo",
+        interactionsCount = 122,
+        missionsCompleted = 19,
+        score = 122+19
+    ),
+    UserResponse(
+        id = 5,
+        fullName = "Gabriel Mendes",
+        email = "leonardobbrandao@hotmail.com",
+        position = "Desenvolvedor Mobile",
+        role = "leader",
+        nuts = 1355,
+        superpower = Superpower(5, "O indestrutível laço da evolução"),
+        tags = listOf(
+            Tag(1, "Transformar"),
+            Tag(2, "Cuidar"),
+            Tag(3, "Diversificar"),
+            Tag(4, "Respeitar"),
+            Tag(5, "Produzir bem"),
+            Tag(6, "Criatividade"),
+            Tag(7, "Inovação"),
+            Tag(8, "Excelência"),
+            Tag(9, "Reconhecimento"),
+            Tag(10, "Surpreender")
+        ),
+        bio = "Fala, galera! Sou o Léo",
+        interactionsCount = 122,
+        missionsCompleted = 19,
+        score = 122+19
+    ),
+    UserResponse(
+        id = 6,
+        fullName = "Wanessa",
+        email = "leonardobbrandao@hotmail.com",
+        position = "Desenvolvedor Mobile",
+        role = "leader",
+        nuts = 1355,
+        superpower = Superpower(5, "O indestrutível laço da evolução"),
+        tags = listOf(
+            Tag(1, "Transformar"),
+            Tag(2, "Cuidar"),
+            Tag(3, "Diversificar"),
+            Tag(4, "Respeitar"),
+            Tag(5, "Produzir bem"),
+            Tag(6, "Criatividade"),
+            Tag(7, "Inovação"),
+            Tag(8, "Excelência"),
+            Tag(9, "Reconhecimento"),
+            Tag(10, "Surpreender")
+        ),
+        bio = "Fala, galera! Sou o Léo",
+        interactionsCount = 122,
+        missionsCompleted = 19,
+        score = 122+19
+    )
+)
 class UserViewModel : ViewModel() {
     private val _userRepository = UserRepository()
 
@@ -49,6 +202,8 @@ class UserViewModel : ViewModel() {
     private var _newUserRole: String = ""
 
     private var _authenticatedUser: UserResponse? = user
+
+    private var _allUsers: List<UserResponse>? = lista
 
     private var _viewModelIsReady by mutableStateOf(true)
 
@@ -132,6 +287,18 @@ class UserViewModel : ViewModel() {
 
     fun getAuthenticatedUser(): UserResponse? {
         return _authenticatedUser
+    }
+
+    fun listAllUsers(): List<UserResponse>? {
+        return _allUsers?.filter { it.id != _authenticatedUser?.id }
+    }
+
+    fun loadAllUsers() {
+        _viewModelIsReady = false
+        viewModelScope.launch {
+            _allUsers = _userRepository.listAllUsers()
+            _viewModelIsReady = true
+        }
     }
 
     fun isReady(): Boolean {

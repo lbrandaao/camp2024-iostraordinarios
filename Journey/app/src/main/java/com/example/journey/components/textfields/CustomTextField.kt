@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -25,6 +26,7 @@ fun CustomTextField(
     modifier: Modifier = Modifier,
     placeholder: String = "",
     readOnly: Boolean = false,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null
@@ -61,6 +63,7 @@ fun CustomTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(53.dp),
+            keyboardOptions = keyboardOptions,
             visualTransformation = visualTransformation,
             placeholder = {
                 Text(
