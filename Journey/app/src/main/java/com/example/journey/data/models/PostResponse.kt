@@ -1,6 +1,7 @@
 package com.example.journey.data.models
 
-data class Post(
+data class PostResponse(
+    val id: Int,
     val title: String,
     val description: String,
     val creator: UserResponse,

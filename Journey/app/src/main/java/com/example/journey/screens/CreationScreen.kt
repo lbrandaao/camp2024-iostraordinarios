@@ -34,6 +34,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -48,8 +50,10 @@ import com.example.journey.R
 import com.example.journey.components.textfields.CustomDropDownMenuCreation
 import com.example.journey.components.textfields.CustomLongTextField
 import com.example.journey.components.textfields.CustomTextField
-import com.example.journey.data.models.Journey
-import com.example.journey.data.models.Post
+import com.example.journey.data.models.JourneyResponse
+import com.example.journey.data.models.NewJourneyRequest
+import com.example.journey.data.models.NewPostRequest
+import com.example.journey.data.models.PostResponse
 import com.example.journey.data.models.Superpower
 import com.example.journey.data.models.Tag
 import com.example.journey.ui.theme.Poppins
@@ -98,7 +102,7 @@ fun CreationScreen(
             mutableStateOf("")
         }
 
-        val allSuperpowersList = superpowerViewModel.listSuperpowers() ?: listOf()
+        val allSuperpowersList = remember { superpowerViewModel.listSuperpowers() ?: listOf() }
 
         var superpowerQuery by remember {
             mutableStateOf("")
@@ -112,7 +116,7 @@ fun CreationScreen(
             mutableStateListOf<Superpower>()
         }
 
-        val allTagsList = tagViewModel.listTags() ?: listOf()
+        val allTagsList = remember { tagViewModel.listTags() ?: listOf() }
 
         var tagQuery by remember {
             mutableStateOf("")
@@ -130,9 +134,11 @@ fun CreationScreen(
             mutableStateOf("")
         }
 
-        val creationOptions = if (
-            userViewModel.getAuthenticatedUser()?.role == "user"
-        ) listOf("Post") else listOf("Post", "Jornada")
+        val creationOptions = remember {
+            if (
+                userViewModel.getAuthenticatedUser()?.role == "user"
+            ) listOf("Post") else listOf("Post", "Jornada")
+        }
 
         LazyColumn(
             modifier = Modifier
@@ -213,19 +219,24 @@ fun CreationScreen(
                             modifier = Modifier
                                 .size(32.dp)
                         )
-                    }
+                    },
+                    modifier = Modifier
+                        .onFocusChanged {
+                            if (!it.isFocused) {
+                                tagQueryResults = listOf()
+                            }
+                        }
                 )
 
                 if (tagQueryResults.isNotEmpty()) {
-                    LazyColumn(
+                    Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(180.dp)
                             .background(Color.White, shape = RoundedCornerShape(8.dp))
-                            .padding(5.dp),
-                        verticalArrangement = Arrangement.spacedBy(15.dp)
+                            .padding(horizontal = 5.dp, vertical = 10.dp),
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
-                        items(tagQueryResults.size) {
+                        repeat(tagQueryResults.size) {
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -299,19 +310,24 @@ fun CreationScreen(
                             modifier = Modifier
                                 .size(32.dp)
                         )
-                    }
+                    },
+                    modifier = Modifier
+                        .onFocusChanged {
+                            if (!it.isFocused) {
+                                superpowerQueryResults = listOf()
+                            }
+                        }
                 )
 
                 if (superpowerQueryResults.isNotEmpty()) {
-                    LazyColumn(
+                    Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(180.dp)
                             .background(Color.White, shape = RoundedCornerShape(8.dp))
-                            .padding(5.dp),
-                        verticalArrangement = Arrangement.spacedBy(15.dp)
+                            .padding(horizontal = 5.dp, vertical = 10.dp),
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
-                        items(superpowerQueryResults.size) {
+                        repeat(superpowerQueryResults.size) {
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -429,12 +445,11 @@ fun CreationScreen(
                                 if (entityCreated == "Post") {
                                     postViewModel.createPost(
                                         context,
-                                        post = Post(
+                                        newPost = NewPostRequest(
                                             title = title,
                                             description = description,
-                                            creator = userViewModel.getAuthenticatedUser()!!,
-                                            superpowers = selectedSuperpowers,
-                                            tags = selectedTags
+                                            superpowersId = selectedSuperpowers.map { it.id },
+                                            tagsId = selectedTags.map { it.id }
                                         ),
                                         onCreateConfirm = onCreationConfirm
                                     )
@@ -442,13 +457,12 @@ fun CreationScreen(
                                     if (nutsText.isNotBlank()) {
                                         journeyViewModel.createJourney(
                                             context,
-                                            journey = Journey(
+                                            newJourney = NewJourneyRequest(
                                                 title = title,
                                                 description = description,
                                                 nuts = nutsText.toInt(),
-                                                creator = userViewModel.getAuthenticatedUser()!!,
-                                                superpowers = selectedSuperpowers,
-                                                tags = selectedTags
+                                                superpowersId = selectedSuperpowers.map { it.id },
+                                                tagsId = selectedTags.map { it.id }
                                             ),
                                             onCreateConfirm = onCreationConfirm
                                         )

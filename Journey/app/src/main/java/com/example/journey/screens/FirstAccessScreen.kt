@@ -1,5 +1,6 @@
 package com.example.journey.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -64,12 +65,13 @@ fun FirstAccessScreen(
         if (userViewModel.isReady() &&
             superpowerViewModel.isReady() &&
             tagViewModel.isReady()) {
-            val dropDownItemsTextList =
+            val dropDownItemsTextList = remember {
                 superpowerViewModel.listSuperpowers()?.map { it.name }?: listOf()
+            }
             var dropDownValue by remember { mutableStateOf("") }
 
-            val chipsTextList = tagViewModel.listTags()?.map { it.name }?: listOf()
-            val selectedStringTagsList = mutableListOf<String>()
+            val chipsTextList = remember { tagViewModel.listTags()?.map { it.name }?: listOf() }
+            val selectedStringTagsList = remember { mutableListOf<String>() }
 
             Column(
                 modifier = Modifier
@@ -106,10 +108,12 @@ fun FirstAccessScreen(
 
                         AssistChip(
                             onClick = {
-                                if (isSelected)
-                                    selectedStringTagsList -= chipText
-                                else
-                                    selectedStringTagsList += chipText
+                                if (isSelected) {
+                                    selectedStringTagsList.remove(chipText)
+                                }
+                                else {
+                                    selectedStringTagsList.add(chipText)
+                                }
                                 isSelected = !isSelected
                             },
                             label = {
@@ -164,6 +168,12 @@ fun FirstAccessScreen(
                                 selectedIdTagsList,
                                 context,
                                 onRegistrationConfirm)
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "Preencha todos os campos.",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
 
                     },

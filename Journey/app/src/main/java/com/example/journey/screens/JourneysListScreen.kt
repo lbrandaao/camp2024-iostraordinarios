@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,7 +31,7 @@ fun JourneysListScreen(
     if (journeyViewModel.listJourneys() == null) journeyViewModel.loadJourneys()
 
     if (journeyViewModel.isReady()) {
-        val journeysList = journeyViewModel.listJourneys() ?: listOf()
+        val journeysList = remember {journeyViewModel.listJourneys() ?: listOf()}
 
         LazyColumn(
             modifier = Modifier

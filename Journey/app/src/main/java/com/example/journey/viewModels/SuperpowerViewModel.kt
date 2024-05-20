@@ -21,7 +21,7 @@ private val lista = listOf(
 
 class SuperpowerViewModel: ViewModel() {
     private val _superpowerRepository = SuperpowerRepository()
-    private var _superpowersList: List<Superpower>? = lista
+    private var _superpowersList: List<Superpower>? = null
 
     private var _viewModelIsReady by mutableStateOf(true)
     fun listSuperpowers(): List<Superpower>? {

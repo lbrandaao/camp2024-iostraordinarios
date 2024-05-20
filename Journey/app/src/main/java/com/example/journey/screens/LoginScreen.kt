@@ -24,12 +24,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.journey.MainActivity
 import com.example.journey.R
+import com.example.journey.components.textfields.CustomPasswordTextField
 import com.example.journey.components.textfields.CustomTextField
 import com.example.journey.ui.theme.Poppins
 import com.example.journey.ui.theme.PrimaryBackgroundColor
@@ -86,15 +86,14 @@ fun LoginScreen(
                         .padding(top = 35.dp),
                 )
 
-                CustomTextField(
+                CustomPasswordTextField(
                     value = passwordValue,
                     onValueChange = {
                         passwordValue = it
                     },
                     label = "Senha",
                     modifier = Modifier
-                        .padding(top = 35.dp),
-                    visualTransformation = PasswordVisualTransformation()
+                        .padding(top = 35.dp)
                 )
 
                 Text(

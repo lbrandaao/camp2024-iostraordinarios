@@ -1,6 +1,7 @@
 package com.example.journey.data.models
 
-data class Journey(
+data class JourneyResponse(
+    val id: Int,
     val title: String,
     val description: String,
     val creator: UserResponse,

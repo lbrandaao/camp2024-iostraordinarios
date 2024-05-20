@@ -2,8 +2,10 @@ package com.example.journey
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
@@ -36,10 +38,12 @@ import com.example.journey.viewModels.TagViewModel
 import com.example.journey.viewModels.UserViewModel
 
 /*
-* (1) Mudanças na API: Alterar Services e Models se necessário e TESTAR
 * (2) TELA DE RANKING: aguardando endpoint pra puxar ranking
 * (3) Tela de Completar Jornada: Aguardando rota pra conectar com API
 * (4) Tela de Feed (deixar parte de pesquisa não funcional por enquanto)
+* (5) Sair da aplicação
+* (6) Campo de senha
+* (7) Adicionar reações
 * */
 class MainActivity : ComponentActivity() {
     private val userViewModel by viewModels<UserViewModel>()
@@ -50,8 +54,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        TokenManager.init(this@MainActivity)
         installSplashScreen()
+        TokenManager.init(this@MainActivity)
 
         setContent {
             val navControllerNoAppBars = rememberNavController()
@@ -66,12 +70,10 @@ class MainActivity : ComponentActivity() {
                     Routes.OnBoarding.route
                 }
 
-            var startDestinationWithAppBars = Routes.JourneysList.route
-
             JourneyTheme {
                 NavHost(
                     navController = navControllerNoAppBars,
-                    startDestination = Routes.WithAppBars.route
+                    startDestination = startDestinationNoAppBars
                 ) {
                     composable(Routes.OnBoarding.route) {
                         OnBoardingScreen(this@MainActivity) {
@@ -179,9 +181,6 @@ class MainActivity : ComponentActivity() {
                                             paddingValues = paddingValues,
                                             journeyViewModel = journeyViewModel,
                                             onJourneyDetailsClick = {
-                                                startDestinationWithAppBars =
-                                                    Routes.JourneysList.route
-                                                navControllerWithAppBars.popBackStack()
                                                 navControllerNoAppBars.navigate(Routes.JourneyDetails.route)
                                             }
                                         )
@@ -192,8 +191,6 @@ class MainActivity : ComponentActivity() {
                                             paddingValues = paddingValues,
                                             postViewModel = postViewModel,
                                             onSeeMoreButtonClick = {
-                                                startDestinationWithAppBars = Routes.PostsList.route
-                                                navControllerWithAppBars.popBackStack()
                                                 navControllerNoAppBars.navigate(Routes.PostsFeed.route)
                                             }
                                         )
@@ -202,7 +199,14 @@ class MainActivity : ComponentActivity() {
                                     composable(Routes.Profile.route) {
                                         ProfileScreen(
                                             paddingValues = paddingValues,
-                                            userViewModel = userViewModel)
+                                            userViewModel = userViewModel,
+                                            onLogoutConfirm = {
+                                                TokenManager.setToken("")
+                                                navControllerWithAppBars.popBackStack(0, true)
+                                                navControllerNoAppBars.popBackStack(0, true)
+                                                navControllerNoAppBars.navigate(Routes.Login.route)
+                                            }
+                                        )
                                     }
 
                                     composable(Routes.Ranking.route) {}

@@ -1,7 +1,9 @@
 package com.example.journey.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -17,11 +19,17 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,12 +47,15 @@ import com.example.journey.viewModels.UserViewModel
 @Composable
 fun ProfileScreen(
     paddingValues: PaddingValues,
-    userViewModel: UserViewModel
+    userViewModel: UserViewModel,
+    onLogoutConfirm: () -> Unit
 ) {
     if (userViewModel.getAuthenticatedUser() == null) userViewModel.setAuthenticatedUser()
 
     if (userViewModel.isReady()) {
-        val authenticatedUser = userViewModel.getAuthenticatedUser()!!
+        val authenticatedUser = remember { userViewModel.getAuthenticatedUser()!! }
+
+        var showMoreOptions by remember { mutableStateOf(false) }
 
         LazyColumn(
             modifier = Modifier
@@ -54,15 +65,67 @@ fun ProfileScreen(
         ) {
 
             item {
-                Icon(
-                    painter = painterResource(id = R.drawable.profile_icon),
-                    contentDescription = "Ícone de perfil não clicável",
+                Box (
                     modifier = Modifier
-                        .size(75.dp)
-                        .background(color = Color(0xFFFF85AB), shape = CircleShape)
-                        .padding(10.dp),
-                    tint = Color.Black
-                )
+                        .fillMaxWidth()
+                        .padding(top = 5.dp)
+                ){
+                    Icon(
+                        painter = painterResource(id = R.drawable.profile_icon),
+                        contentDescription = "Ícone de perfil não clicável",
+                        modifier = Modifier
+                            .size(75.dp)
+                            .background(color = Color(0xFFFF85AB), shape = CircleShape)
+                            .padding(10.dp)
+                            .align(Alignment.Center),
+                        tint = Color.Black
+                    )
+
+                    Column (
+                        modifier = Modifier
+                            .align(Alignment.CenterEnd)
+                    ){
+                        Icon(
+                            imageVector = Icons.Default.MoreVert,
+                            contentDescription = "Ícone clicável para mais opções.",
+                            tint = Color.Black,
+                            modifier = Modifier
+                                .size(30.dp)
+                                .clickable {
+                                    showMoreOptions = !showMoreOptions
+                                }
+                                .align(Alignment.End)
+                        )
+
+                        if (showMoreOptions) {
+                            Box(
+                                modifier = Modifier
+                                    .width(70.dp)
+                                    .background(
+                                        color = Color.White,
+                                        shape = RoundedCornerShape(20.dp)
+                                    )
+                                    .clickable {
+                                        userViewModel.logoutAuthenticatedUser()
+                                        onLogoutConfirm.invoke()
+                                    }
+                                    .padding(horizontal = 10.dp, vertical = 10.dp)
+                            ) {
+                                Text(
+                                    text = "Sair",
+                                    fontFamily = Poppins,
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontSize = 12.sp,
+                                    color = Color.Black,
+                                    textDecoration = TextDecoration.Underline
+                                )
+                            }
+                        }
+                    }
+
+                }
+
+
             }
 
             item {
@@ -356,8 +419,20 @@ fun ProfileScreen(
             }
 
         }
+    } else {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(120.dp),
+                color = Color.Black,
+                strokeWidth = 8.dp
+            )
+        }
     }
-
 }
 
 @Preview
@@ -365,6 +440,7 @@ fun ProfileScreen(
 fun ProfileScreenPreview() {
     ProfileScreen(
         paddingValues = PaddingValues(),
-        userViewModel = UserViewModel()
+        userViewModel = UserViewModel(),
+        onLogoutConfirm = {}
     )
 }

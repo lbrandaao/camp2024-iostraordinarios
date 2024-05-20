@@ -201,9 +201,9 @@ class UserViewModel : ViewModel() {
     private var _newUserPosition: String = ""
     private var _newUserRole: String = ""
 
-    private var _authenticatedUser: UserResponse? = user
+    private var _authenticatedUser: UserResponse? = null
 
-    private var _allUsers: List<UserResponse>? = lista
+    private var _allUsers: List<UserResponse>? = null
 
     private var _viewModelIsReady by mutableStateOf(true)
 
@@ -234,7 +234,7 @@ class UserViewModel : ViewModel() {
             position = _newUserPosition,
             role = _newUserRole,
             superpowerId = superpowerId,
-            tagIds = tagsIdList
+            tagsId = tagsIdList
         )
         viewModelScope.launch {
             val newUserIsCreated = _userRepository.createUser(newUserRequest)
@@ -299,6 +299,10 @@ class UserViewModel : ViewModel() {
             _allUsers = _userRepository.listAllUsers()
             _viewModelIsReady = true
         }
+    }
+
+    fun logoutAuthenticatedUser() {
+        _authenticatedUser = null
     }
 
     fun isReady(): Boolean {

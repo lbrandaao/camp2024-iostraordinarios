@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -26,11 +27,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -74,14 +77,14 @@ fun CompleteJourneyScreen(
                 mutableStateOf("")
             }
 
-            val allUsersList = userViewModel.listAllUsers() ?: listOf()
+            val allUsersList = remember { userViewModel.listAllUsers() ?: listOf() }
 
             var usersNameResults by remember {
                 mutableStateOf(listOf<UserResponse>())
             }
 
             var selectedFriend by remember {
-                mutableStateOf(-1)
+                mutableIntStateOf(-1)
             }
 
             LazyColumn(
@@ -140,90 +143,95 @@ fun CompleteJourneyScreen(
                             placeholder = "dd/mm/aaaa"
                         )
 
-                        CustomTextField(
-                            value = nameQuery,
-                            onValueChange = {
-                                nameQuery = it
-                                usersNameResults = if (nameQuery.length >= 3) {
-                                    allUsersList.filter { user ->
-                                        user.fullName.contains(nameQuery, ignoreCase = true)
-                                    }.take(3)
-                                } else {
-                                    listOf()
-                                }
-                            },
-                            label = "Convidar amigo",
-                            placeholder = "Pesquisar pessoas",
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = Icons.Default.Search,
-                                    contentDescription = "Ícone não clicável",
-                                    tint = Color(0xFF828282),
-                                    modifier = Modifier
-                                        .size(32.dp)
-                                )
-                            }
-                        )
-
-                        if (usersNameResults.isNotEmpty()) {
-                            LazyColumn(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(180.dp)
-                                    .background(Color.White, shape = RoundedCornerShape(8.dp))
-                                    .padding(5.dp),
-                                verticalArrangement = Arrangement.spacedBy(15.dp)
-                            ) {
-                                items(usersNameResults.size) {
-                                    Row(
+                        Column {
+                            CustomTextField(
+                                value = nameQuery,
+                                onValueChange = {
+                                    nameQuery = it
+                                    usersNameResults = if (nameQuery.length >= 3) {
+                                        allUsersList.filter { user ->
+                                            user.fullName.contains(nameQuery, ignoreCase = true)
+                                        }.take(3)
+                                    } else {
+                                        listOf()
+                                    }
+                                },
+                                label = "Convidar amigo",
+                                placeholder = "Pesquisar pessoas",
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Default.Search,
+                                        contentDescription = "Ícone não clicável",
+                                        tint = Color(0xFF828282),
                                         modifier = Modifier
-                                            .fillMaxWidth()
-                                            .border(
-                                                width = 1.dp,
+                                            .size(32.dp)
+                                    )
+                                },
+                                modifier = Modifier
+                                    .onFocusChanged {
+                                        if (!it.isFocused) usersNameResults = listOf()
+                                    }
+                            )
+
+                            if (usersNameResults.isNotEmpty()) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(Color.White, shape = RoundedCornerShape(8.dp))
+                                        .padding(horizontal = 5.dp, vertical = 10.dp),
+                                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                                ) {
+                                    repeat(usersNameResults.size) {
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .border(
+                                                    width = 1.dp,
+                                                    color =
+                                                    if (selectedFriend == usersNameResults[it].id)
+                                                        Color(0xFFEB0049)
+                                                    else Color(0xFFE0E0E0),
+                                                    shape = RoundedCornerShape(8.dp)
+                                                )
+                                                .background(
+                                                    Color.White,
+                                                    shape = RoundedCornerShape(8.dp)
+                                                )
+                                                .padding(10.dp)
+                                                .clickable {
+                                                    selectedFriend =
+                                                        if (selectedFriend == usersNameResults[it].id) {
+                                                            -1
+                                                        } else {
+                                                            usersNameResults[it].id
+                                                        }
+                                                },
+                                            horizontalArrangement = Arrangement.SpaceBetween
+                                        ) {
+                                            Text(
+                                                text = usersNameResults[it].fullName,
+                                                fontFamily = Poppins,
+                                                fontWeight = FontWeight.Normal,
+                                                fontSize = 14.sp,
                                                 color =
                                                 if (selectedFriend == usersNameResults[it].id)
                                                     Color(0xFFEB0049)
-                                                else Color(0xFFE0E0E0),
-                                                shape = RoundedCornerShape(8.dp)
+                                                else Color.Black,
+                                                modifier = Modifier.fillMaxWidth(0.75f),
+                                                overflow = TextOverflow.Ellipsis
                                             )
-                                            .background(
-                                                Color.White,
-                                                shape = RoundedCornerShape(8.dp)
-                                            )
-                                            .padding(10.dp)
-                                            .clickable {
-                                                selectedFriend =
-                                                    if (selectedFriend == usersNameResults[it].id) {
-                                                        -1
-                                                    } else {
-                                                        usersNameResults[it].id
-                                                    }
-                                            },
-                                        horizontalArrangement = Arrangement.SpaceBetween
-                                    ) {
-                                        Text(
-                                            text = usersNameResults[it].fullName,
-                                            fontFamily = Poppins,
-                                            fontWeight = FontWeight.Normal,
-                                            fontSize = 14.sp,
-                                            color =
-                                            if (selectedFriend == usersNameResults[it].id)
-                                                Color(0xFFEB0049)
-                                            else Color.Black,
-                                            modifier = Modifier.fillMaxWidth(0.75f),
-                                            overflow = TextOverflow.Ellipsis
-                                        )
 
-                                        if (selectedFriend == usersNameResults[it].id) {
-                                            Icon(
-                                                imageVector = Icons.Default.Clear,
-                                                contentDescription = "Ícone para remoção do convite.",
-                                                tint = Color(0xFFEB0049)
-                                            )
+                                            if (selectedFriend == usersNameResults[it].id) {
+                                                Icon(
+                                                    imageVector = Icons.Default.Clear,
+                                                    contentDescription = "Ícone para remoção do convite.",
+                                                    tint = Color(0xFFEB0049)
+                                                )
+                                            }
                                         }
+
+
                                     }
-
-
                                 }
                             }
                         }

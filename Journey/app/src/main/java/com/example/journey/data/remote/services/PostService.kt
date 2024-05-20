@@ -1,6 +1,7 @@
 package com.example.journey.data.remote.services
 
-import com.example.journey.data.models.Post
+import com.example.journey.data.models.NewPostRequest
+import com.example.journey.data.models.PostResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -9,20 +10,20 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface PostService {
-    @GET("posts")
+    @GET("publishes")
     suspend fun getAllPosts(
         @Header("Authorization") token: String
-    ): Response<List<Post>>
+    ): Response<List<PostResponse>>
 
-    @POST("posts")
+    @POST("publishes")
     suspend fun createPost(
         @Header("Authorization") token: String,
-        @Body newPost: Post
-    ): Response<Post>
+        @Body newPost: NewPostRequest
+    ): Response<PostResponse>
 
-    @GET("posts/{id}")
+    @GET("publishes/{id}")
     suspend fun getPost(
         @Header("Authorization") token: String,
         @Path("id") id: Int
-    ): Response<Post>
+    ): Response<PostResponse>
 }

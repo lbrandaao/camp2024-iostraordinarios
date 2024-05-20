@@ -29,19 +29,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.journey.R
-import com.example.journey.data.models.Journey
-import com.example.journey.data.models.UserResponse
+import com.example.journey.data.models.JourneyResponse
 import com.example.journey.ui.theme.Poppins
 import com.example.journey.ui.theme.PrimaryBackgroundColor
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun JourneyDetailsScreen(
-    journey: Journey?,
+    journey: JourneyResponse?,
     onBackClick: () -> Unit,
     onAcceptClick: () -> Unit
 ) {

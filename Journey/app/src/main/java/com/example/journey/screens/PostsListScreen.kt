@@ -14,6 +14,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,10 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import com.example.journey.components.utils.PostComponent
-import com.example.journey.data.models.Post
-import com.example.journey.data.models.Superpower
-import com.example.journey.data.models.Tag
-import com.example.journey.data.models.UserResponse
 import com.example.journey.ui.theme.Poppins
 import com.example.journey.viewModels.PostViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -46,7 +43,7 @@ fun PostsListScreen(
     if (postViewModel.listPosts() == null) postViewModel.loadPosts()
 
     if (postViewModel.isReady()) {
-        val postsList = postViewModel.listPosts() ?: listOf()
+        val postsList = remember { postViewModel.listPosts() ?: listOf() }
         val pagerState = rememberPagerState(pageCount = postsList.size)
 
         Column(
@@ -105,7 +102,9 @@ fun PostsListScreen(
                 border = BorderStroke(1.dp, Color(0xFFFF85AB)),
                 shape = RoundedCornerShape(24.dp),
                 modifier = Modifier
+                    .padding(bottom = 30.dp)
                     .size(width = 160.dp, height = 40.dp)
+
             ) {
                 Text(
                     text = "Ver mais",

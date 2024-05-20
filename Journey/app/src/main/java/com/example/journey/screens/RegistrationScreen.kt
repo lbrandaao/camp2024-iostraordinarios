@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import com.example.journey.MainActivity
 import com.example.journey.R
 import com.example.journey.components.textfields.CustomDropDownMenuSuperpowers
+import com.example.journey.components.textfields.CustomPasswordTextField
 import com.example.journey.components.textfields.CustomTextField
 import com.example.journey.ui.theme.Poppins
 import com.example.journey.ui.theme.PrimaryBackgroundColor
@@ -125,26 +126,24 @@ fun RegistrationScreen(
             }
 
             item {
-                CustomTextField(
+                CustomPasswordTextField(
                     value = passwordValue,
                     onValueChange = {
                         passwordValue = it
                     },
                     label = "Senha",
-                    visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier
                         .padding(top = 24.dp)
                 )
             }
 
             item {
-                CustomTextField(
+                CustomPasswordTextField(
                     value = confirmPasswordValue,
                     onValueChange = {
                         confirmPasswordValue = it
                     },
                     label = "Confirmar senha",
-                    visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier
                         .padding(top = 24.dp)
                 )

@@ -1,12 +1,14 @@
 package com.example.journey.viewModels
 
+import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.journey.MainActivity
-import com.example.journey.data.models.Post
+import com.example.journey.data.models.NewPostRequest
+import com.example.journey.data.models.PostResponse
 import com.example.journey.data.models.Superpower
 import com.example.journey.data.models.Tag
 import com.example.journey.data.models.UserResponse
@@ -15,7 +17,7 @@ import kotlinx.coroutines.launch
 
 
 private val lista = listOf(
-    Post(
+    PostResponse(
         title = "",
         description = "Recentemente, participei de um projeto que envolveu a reestruturação de " +
                 "alguns dos nosso processos e, utilizando princípios de inovação, propusemos uma " +
@@ -49,10 +51,10 @@ private val lista = listOf(
             interactionsCount = 0,
             score = 0,
             missionsCompleted = 0
-        )
-
+        ),
+        id = 1
     ),
-    Post(
+    PostResponse(
         title = "",
         description = "Recentemente, participei de um projeto que envolveu a reestruturação de " +
                 "alguns dos nosso processos e, utilizando princípios de inovação, propusemos uma " +
@@ -86,10 +88,10 @@ private val lista = listOf(
             interactionsCount = 0,
             score = 0,
             missionsCompleted = 0
-        )
-
+        ),
+        id = 2
     ),
-    Post(
+    PostResponse(
         title = "",
         description = "Recentemente, participei de um projeto que envolveu a reestruturação de " +
                 "alguns dos nosso processos e, utilizando princípios de inovação, propusemos uma " +
@@ -123,10 +125,10 @@ private val lista = listOf(
             interactionsCount = 0,
             score = 0,
             missionsCompleted = 0
-        )
-
+        ),
+        id = 3
     ),
-    Post(
+    PostResponse(
         title = "",
         description = "Recentemente, participei de um projeto que envolveu a reestruturação de " +
                 "alguns dos nosso processos e, utilizando princípios de inovação, propusemos uma " +
@@ -160,27 +162,27 @@ private val lista = listOf(
             interactionsCount = 0,
             score = 0,
             missionsCompleted = 0
-        )
-
+        ),
+        id = 4
     )
 )
 
 class PostViewModel : ViewModel() {
     private val _postRepository = PostRepository()
-    private var _postSelected: Post? = null
-    private var _postsList: List<Post>? = lista
+    private var _postSelected: PostResponse? = null
+    private var _postsList: List<PostResponse>? = null
 
     private var _viewModelIsReady by mutableStateOf(true)
 
-    fun setSelectedPost(post: Post) {
+    fun setSelectedPost(post: PostResponse) {
         _postSelected = post
     }
 
-    fun getSelectedPost(): Post? {
+    fun getSelectedPost(): PostResponse? {
         return _postSelected
     }
 
-    fun listPosts(): List<Post>? {
+    fun listPosts(): List<PostResponse>? {
         return _postsList
     }
 
@@ -192,12 +194,18 @@ class PostViewModel : ViewModel() {
         }
     }
 
-    fun createPost(context: MainActivity, post: Post, onCreateConfirm: () -> Unit) {
+    fun createPost(context: MainActivity, newPost: NewPostRequest, onCreateConfirm: () -> Unit) {
         viewModelScope.launch {
-            val postIsCreated = _postRepository.createPost(post)
+            val postIsCreated = _postRepository.createPost(newPost)
             if (postIsCreated) {
                 loadPosts()
                 onCreateConfirm.invoke()
+            } else {
+                Toast.makeText(
+                    context,
+                    "Não foi possível criar a publicação.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

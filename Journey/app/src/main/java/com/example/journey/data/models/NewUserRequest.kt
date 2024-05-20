@@ -7,5 +7,5 @@ data class NewUserRequest(
     val position: String,
     val role: String,
     val superpowerId: Int,
-    val tagIds: List<Int>
+    val tagsId: List<Int>
 )

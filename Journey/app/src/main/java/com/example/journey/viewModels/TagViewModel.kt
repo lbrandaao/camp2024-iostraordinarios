@@ -39,7 +39,7 @@ private val lista = listOf(
 
 class TagViewModel: ViewModel() {
     private val _tagRepository = TagRepository()
-    private var _tagsList: List<Tag>? = lista
+    private var _tagsList: List<Tag>? = null
 
     private var _viewModelIsReady by mutableStateOf(true)
     fun listTags(): List<Tag>? {

@@ -1,13 +1,14 @@
 package com.example.journey.viewModels
 
+import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.journey.MainActivity
-import com.example.journey.data.models.Journey
-import com.example.journey.data.models.Post
+import com.example.journey.data.models.JourneyResponse
+import com.example.journey.data.models.NewJourneyRequest
 import com.example.journey.data.models.Superpower
 import com.example.journey.data.models.Tag
 import com.example.journey.data.models.UserResponse
@@ -15,7 +16,7 @@ import com.example.journey.data.repository.JourneyRepository
 import kotlinx.coroutines.launch
 
 private val lista = listOf(
-    Journey(
+    JourneyResponse(
         title = "",
         description = "Recentemente, participei de um projeto que envolveu a reestruturação de " +
                 "alguns dos nosso processos e, utilizando princípios de inovação, propusemos uma " +
@@ -50,9 +51,10 @@ private val lista = listOf(
             score = 0,
             missionsCompleted = 0
         ),
-        nuts = 100
+        nuts = 100,
+        id = 1
     ),
-    Journey(
+    JourneyResponse(
         title = "",
         description = "Recentemente, participei de um projeto que envolveu a reestruturação de " +
                 "alguns dos nosso processos e, utilizando princípios de inovação, propusemos uma " +
@@ -87,9 +89,10 @@ private val lista = listOf(
             score = 0,
             missionsCompleted = 0
         ),
-        nuts = 100
+        nuts = 100,
+        id = 2
     ),
-    Journey(
+    JourneyResponse(
         title = "",
         description = "Recentemente, participei de um projeto que envolveu a reestruturação de " +
                 "alguns dos nosso processos e, utilizando princípios de inovação, propusemos uma " +
@@ -124,9 +127,10 @@ private val lista = listOf(
             score = 0,
             missionsCompleted = 0
         ),
-        nuts = 100
+        nuts = 100,
+        id = 3
     ),
-    Journey(
+    JourneyResponse(
         title = "",
         description = "Recentemente, participei de um projeto que envolveu a reestruturação de " +
                 "alguns dos nosso processos e, utilizando princípios de inovação, propusemos uma " +
@@ -161,26 +165,27 @@ private val lista = listOf(
             score = 0,
             missionsCompleted = 0
         ),
-        nuts = 100
+        nuts = 100,
+        id = 4
     )
 )
 
 class JourneyViewModel : ViewModel() {
     private val _journeyRepository = JourneyRepository()
-    private var _journeySelected: Journey? = null
-    private var _journeysList: List<Journey>? = lista
+    private var _journeySelected: JourneyResponse? = null
+    private var _journeysList: List<JourneyResponse>? = null
 
     private var _viewModelIsReady by mutableStateOf(true)
 
-    fun setSelectedJourney(journey: Journey) {
+    fun setSelectedJourney(journey: JourneyResponse) {
         _journeySelected = journey
     }
 
-    fun getSelectedJourney(): Journey? {
+    fun getSelectedJourney(): JourneyResponse? {
         return _journeySelected
     }
 
-    fun listJourneys(): List<Journey>? {
+    fun listJourneys(): List<JourneyResponse>? {
         return _journeysList
     }
 
@@ -192,12 +197,18 @@ class JourneyViewModel : ViewModel() {
         }
     }
 
-    fun createJourney(context: MainActivity, journey: Journey, onCreateConfirm: () -> Unit) {
+    fun createJourney(context: MainActivity, newJourney: NewJourneyRequest, onCreateConfirm: () -> Unit) {
         viewModelScope.launch {
-            val journeyIsCreated = _journeyRepository.createJourney(journey)
+            val journeyIsCreated = _journeyRepository.createJourney(newJourney)
             if (journeyIsCreated) {
                 loadJourneys()
                 onCreateConfirm.invoke()
+            } else {
+                Toast.makeText(
+                    context,
+                    "Não foi possível criar a jornada",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

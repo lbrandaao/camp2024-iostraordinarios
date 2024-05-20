@@ -27,13 +27,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.journey.R
-import com.example.journey.data.models.Post
+import com.example.journey.data.models.PostResponse
 import com.example.journey.ui.theme.Poppins
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun PostComponent (
-    post: Post,
+    post: PostResponse,
     modifier: Modifier = Modifier
 ) {
     Column(

@@ -1,37 +1,41 @@
 package com.example.journey.components.textfields
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.journey.R
 import com.example.journey.ui.theme.Poppins
 
 @Composable
-fun CustomTextField(
+fun CustomPasswordTextField(
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
-    modifier: Modifier = Modifier,
-    placeholder: String = "",
-    readOnly: Boolean = false,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    visualTransformation: VisualTransformation = VisualTransformation.None,
-    leadingIcon: @Composable (() -> Unit)? = null,
-    trailingIcon: @Composable (() -> Unit)? = null
+    modifier: Modifier = Modifier
 ) {
+
+    var showPassword by remember { mutableStateOf(false) }
+
     Column(
         modifier = modifier
     ) {
@@ -51,7 +55,6 @@ fun CustomTextField(
             onValueChange = {
                 onValueChange(it)
             },
-            readOnly = readOnly,
             colors = OutlinedTextFieldDefaults.colors(
                 unfocusedTextColor = Color(0xFF828282),
                 focusedTextColor = Color.Black,
@@ -64,17 +67,27 @@ fun CustomTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(53.dp),
-            keyboardOptions = keyboardOptions,
-            visualTransformation = visualTransformation,
-            placeholder = {
-                Text(
-                    text = placeholder,
-                    fontSize = 16.sp,
-                    color = Color(0xFF828282)
-                )
-            },
-            leadingIcon = leadingIcon,
-            trailingIcon = trailingIcon
+            visualTransformation =
+            if (showPassword) VisualTransformation.None
+            else PasswordVisualTransformation(),
+            trailingIcon = {
+                if (showPassword)
+                    Icon(
+                        painterResource(id = R.drawable.notvisible_icon),
+                        contentDescription = "Ícone clicável para deixar de exibir senha",
+                        tint = Color(0xFF828282),
+                        modifier = Modifier
+                            .clickable { showPassword = false }
+                    )
+                else
+                    Icon(
+                        painterResource(id = R.drawable.visible_icon),
+                        contentDescription = "Ícone clicável para exibir senha",
+                        tint = Color(0xFF828282),
+                        modifier = Modifier
+                            .clickable { showPassword = true }
+                    )
+            }
         )
     }
 }
