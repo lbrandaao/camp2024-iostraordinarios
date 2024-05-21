@@ -383,7 +383,10 @@ fun CreationScreen(
                     CustomTextField(
                         value = nutsText,
                         onValueChange = {
-                            nutsText = it
+                            if (
+                                it.isEmpty() ||
+                                it.last().isDigit()
+                                ) nutsText = it
                         },
                         label = "",
                         placeholder = "Adicionar número de nozes",

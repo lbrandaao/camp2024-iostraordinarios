@@ -2,10 +2,8 @@ package com.example.journey
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
@@ -38,12 +36,10 @@ import com.example.journey.viewModels.TagViewModel
 import com.example.journey.viewModels.UserViewModel
 
 /*
-* (2) TELA DE RANKING: aguardando endpoint pra puxar ranking
-* (3) Tela de Completar Jornada: Aguardando rota pra conectar com API
-* (4) Tela de Feed (deixar parte de pesquisa não funcional por enquanto)
-* (5) Sair da aplicação
-* (6) Campo de senha
-* (7) Adicionar reações
+* (1) TELA DE RANKING: aguardando endpoint pra puxar ranking
+* (2) Tela de Completar Jornada: Aguardando rota pra conectar com API
+* (3) Tela de Feed (deixar parte de pesquisa não funcional por enquanto)
+* (4) Adicionar reações
 * */
 class MainActivity : ComponentActivity() {
     private val userViewModel by viewModels<UserViewModel>()
@@ -59,7 +55,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navControllerNoAppBars = rememberNavController()
-            val navControllerWithAppBars = rememberNavController()
 
             val startDestinationNoAppBars =
                 if (onBoardingIsFinished(this@MainActivity)) {
@@ -153,6 +148,7 @@ class MainActivity : ComponentActivity() {
                     composable(Routes.PostsFeed.route){}
 
                     composable(Routes.WithAppBars.route) {
+                        val navControllerWithAppBars = rememberNavController()
                         Scaffold(
                             topBar = {
                                 CustomTopAppBar(
@@ -202,9 +198,13 @@ class MainActivity : ComponentActivity() {
                                             userViewModel = userViewModel,
                                             onLogoutConfirm = {
                                                 TokenManager.setToken("")
-                                                navControllerWithAppBars.popBackStack(0, true)
-                                                navControllerNoAppBars.popBackStack(0, true)
+                                                navControllerWithAppBars
+                                                    .popBackStack(0, true)
+
+                                                navControllerNoAppBars
+                                                    .popBackStack(0, true)
                                                 navControllerNoAppBars.navigate(Routes.Login.route)
+
                                             }
                                         )
                                     }

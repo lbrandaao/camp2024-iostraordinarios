@@ -43,7 +43,7 @@ fun PostsListScreen(
     if (postViewModel.listPosts() == null) postViewModel.loadPosts()
 
     if (postViewModel.isReady()) {
-        val postsList = remember { postViewModel.listPosts() ?: listOf() }
+        val postsList =  remember { postViewModel.listPosts() ?: listOf() }
         val pagerState = rememberPagerState(pageCount = postsList.size)
 
         Column(
@@ -72,9 +72,8 @@ fun PostsListScreen(
                     .fillMaxWidth(),
                 itemSpacing = 0.dp
             ) { page ->
-                postsList.forEach {
                     PostComponent(
-                        post = it,
+                        post = postsList[page],
                         modifier = Modifier
                             .graphicsLayer {
                                 val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
@@ -89,7 +88,7 @@ fun PostsListScreen(
                                     }
                             }
                     )
-                }
+
             }
 
             OutlinedButton(
