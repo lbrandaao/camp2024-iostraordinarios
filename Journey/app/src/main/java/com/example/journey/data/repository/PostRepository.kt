@@ -41,4 +41,13 @@ class PostRepository {
 
         return response.isSuccessful
     }
+    suspend fun removeReaction(publishId: Int): Boolean {
+        val requestToken = "Bearer " + TokenManager.getToken()
+        val response = _postService.removeReaction(
+            requestToken,
+            publishId
+        )
+
+        return response.isSuccessful
+    }
 }

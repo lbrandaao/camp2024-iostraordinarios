@@ -37,12 +37,6 @@ import com.example.journey.viewModels.SuperpowerViewModel
 import com.example.journey.viewModels.TagViewModel
 import com.example.journey.viewModels.UserViewModel
 
-/*
-* (1) Tela de Completar Jornada: implementar conclusão de jornada
-* (2) Likes
-* (3) Toast para funcionalidades não implementadas
-* (4) Remover esses comentários
-* */
 class MainActivity : ComponentActivity() {
     private val userViewModel by viewModels<UserViewModel>()
     private val journeyViewModel by viewModels<JourneyViewModel>()
@@ -125,11 +119,12 @@ class MainActivity : ComponentActivity() {
 
                     composable(Routes.JourneyDetails.route) {
                         JourneyDetailsScreen(
-                            journey = journeyViewModel.getSelectedJourney(),
+                            context = this@MainActivity,
+                            journeyViewModel = journeyViewModel,
                             onBackClick = {
                                 navControllerNoAppBars.popBackStack()
                             },
-                            onAcceptClick = {
+                            onJoinConfirm = {
                                 navControllerNoAppBars.navigate(Routes.CompleteJourney.route)
                             }
                         )
@@ -137,12 +132,14 @@ class MainActivity : ComponentActivity() {
 
                     composable(Routes.CompleteJourney.route) {
                         CompleteJourneyScreen(
+                            context = this@MainActivity,
                             userViewModel = userViewModel,
                             journeyViewModel = journeyViewModel,
                             onBackClick = {
                                 navControllerNoAppBars.popBackStack()
                             },
                             onJourneyCompleted = {
+                                userViewModel.setAuthenticatedUser()
                                 navControllerNoAppBars.popBackStack()
                                 navControllerNoAppBars.popBackStack()
                             }

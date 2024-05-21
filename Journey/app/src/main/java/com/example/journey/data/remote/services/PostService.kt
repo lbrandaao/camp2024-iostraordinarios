@@ -6,6 +6,7 @@ import com.example.journey.data.models.NewReactionRequest
 import com.example.journey.data.models.ReactionResponse
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -33,5 +34,11 @@ interface PostService {
     suspend fun addReaction(
         @Header("Authorization") token: String,
         @Body newReaction: NewReactionRequest
+    ): Response<ReactionResponse>
+
+    @DELETE("likes/{publishId}")
+    suspend fun removeReaction(
+        @Header("Authorization") token: String,
+        @Path("publishId") id: Int
     ): Response<ReactionResponse>
 }

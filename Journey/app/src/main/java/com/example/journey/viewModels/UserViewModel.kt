@@ -114,6 +114,8 @@ class UserViewModel : ViewModel() {
 
     private var _rankingUsersList: List<UserResponse>? = rankingList
 
+    private var _tokenIsValid: Boolean = false
+
     private var _viewModelIsReady by mutableStateOf(true)
 
     fun saveNewUserData(
@@ -224,6 +226,10 @@ class UserViewModel : ViewModel() {
 
     fun logoutAuthenticatedUser() {
         _authenticatedUser = null
+    }
+
+    fun tokenIsValid(): Boolean {
+        return _tokenIsValid
     }
 
     fun isReady(): Boolean {

@@ -38,6 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.journey.MainActivity
 import com.example.journey.R
 import com.example.journey.components.textfields.CustomDatePicker
 import com.example.journey.components.textfields.CustomTextField
@@ -49,6 +50,7 @@ import com.example.journey.viewModels.UserViewModel
 
 @Composable
 fun CompleteJourneyScreen(
+    context: MainActivity,
     userViewModel: UserViewModel,
     journeyViewModel: JourneyViewModel,
     onBackClick: () -> Unit,
@@ -255,7 +257,11 @@ fun CompleteJourneyScreen(
                 item {
                     OutlinedButton(
                         onClick = {
-                            onJourneyCompleted.invoke()
+                            journeyViewModel.completeJourney(
+                                context = context,
+                                journeyId = journeyViewModel.getSelectedJourney()?.id?:-1,
+                                onCompleteConfirm = onJourneyCompleted
+                            )
                         },
                         colors = ButtonDefaults.outlinedButtonColors(
                             containerColor = Color(0xFFEB0049)

@@ -100,7 +100,14 @@ fun LoginScreen(
                     text = "Esqueci a senha",
                     modifier = Modifier
                         .align(Alignment.End)
-                        .padding(12.dp),
+                        .padding(12.dp)
+                        .clickable {
+                                   Toast.makeText(
+                                       context,
+                                       "Funcionalidade ainda não implementada.",
+                                       Toast.LENGTH_SHORT
+                                   ).show()
+                        },
                     textDecoration = TextDecoration.Underline,
                     fontFamily = Poppins,
                     fontWeight = FontWeight.Medium,

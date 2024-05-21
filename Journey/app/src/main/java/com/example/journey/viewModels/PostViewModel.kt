@@ -15,18 +15,9 @@ import kotlinx.coroutines.launch
 
 class PostViewModel : ViewModel() {
     private val _postRepository = PostRepository()
-    private var _postSelected: PostResponse? = null
     private var _postsList: List<PostResponse>? = null
 
     private var _viewModelIsReady by mutableStateOf(true)
-
-    fun setSelectedPost(post: PostResponse) {
-        _postSelected = post
-    }
-
-    fun getSelectedPost(): PostResponse? {
-        return _postSelected
-    }
 
     fun listPosts(): List<PostResponse>? {
         return _postsList
@@ -66,6 +57,21 @@ class PostViewModel : ViewModel() {
                 Toast.makeText(
                     context,
                     "Não foi possível adicionar a reação.",
+                    Toast.LENGTH_SHORT
+                ).show()
+        }
+    }
+
+    fun removeReactionOnPost(
+        context: MainActivity,
+        publishId: Int
+    ) {
+        viewModelScope.launch {
+            val reactionRemoved = _postRepository.removeReaction(publishId)
+            if (!reactionRemoved)
+                Toast.makeText(
+                    context,
+                    "Não foi possível remover a reação.",
                     Toast.LENGTH_SHORT
                 ).show()
         }

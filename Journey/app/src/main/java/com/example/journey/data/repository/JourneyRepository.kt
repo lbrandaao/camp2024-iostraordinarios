@@ -30,4 +30,24 @@ class JourneyRepository {
 
         return response.body()
     }
+
+    suspend fun joinJourney(journeyId: Int): Boolean {
+        val requestToken = "Bearer " + TokenManager.getToken()
+        val response = _journeyService.joinJourney(
+            token = requestToken,
+            id = journeyId
+        )
+
+        return response.isSuccessful
+    }
+
+    suspend fun completeJourney(journeyId: Int): Boolean {
+        val requestToken = "Bearer " + TokenManager.getToken()
+        val response = _journeyService.completeJourney(
+            token = requestToken,
+            id = journeyId
+        )
+
+        return response.isSuccessful
+    }
 }
