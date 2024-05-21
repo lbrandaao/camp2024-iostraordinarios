@@ -15,7 +15,7 @@ import com.example.journey.data.models.UserResponse
 import com.example.journey.data.repository.JourneyRepository
 import kotlinx.coroutines.launch
 
-private val lista = listOf(
+/*private val lista = listOf(
     JourneyResponse(
         title = "",
         description = "Recentemente, participei de um projeto que envolveu a reestruturação de " +
@@ -168,7 +168,7 @@ private val lista = listOf(
         nuts = 100,
         id = 4
     )
-)
+)*/
 
 class JourneyViewModel : ViewModel() {
     private val _journeyRepository = JourneyRepository()

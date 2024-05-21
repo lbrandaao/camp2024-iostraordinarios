@@ -68,7 +68,7 @@ fun ProfileScreen(
                 Box (
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 5.dp)
+                        .padding(top = 15.dp)
                 ){
                     Icon(
                         painter = painterResource(id = R.drawable.profile_icon),

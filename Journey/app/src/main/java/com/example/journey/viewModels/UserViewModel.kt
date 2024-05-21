@@ -14,7 +14,7 @@ import com.example.journey.data.models.UserResponse
 import com.example.journey.data.repository.UserRepository
 import kotlinx.coroutines.launch
 
-private val user = UserResponse(
+/*private val user = UserResponse(
     id = 3,
     fullName = "Leonardo B. Brandão",
     email = "leonardobbrandao@hotmail.com",
@@ -38,17 +38,17 @@ private val user = UserResponse(
     interactionsCount = 122,
     missionsCompleted = 19,
     score = 122+19
-)
+)*/
 
-private val lista = listOf(
+private val rankingList = listOf(
     UserResponse(
         id = 1,
-        fullName = "Ana Carolina Borges",
+        fullName = "Isis Fernandes",
         email = "leonardobbrandao@hotmail.com",
         position = "Desenvolvedor Mobile",
         role = "leader",
         nuts = 1355,
-        superpower = Superpower(5, "O indestrutível laço da evolução"),
+        superpower = Superpower(5, "O poder infinito da mente"),
         tags = listOf(
             Tag(1, "Transformar"),
             Tag(2, "Cuidar"),
@@ -62,18 +62,19 @@ private val lista = listOf(
             Tag(10, "Surpreender")
         ),
         bio = "Fala, galera! Sou o Léo",
-        interactionsCount = 122,
-        missionsCompleted = 19,
-        score = 122+19
+        interactionsCount = 1780,
+        missionsCompleted = 12,
+        score = 1780+12,
+        likes = listOf()
     ),
     UserResponse(
         id = 2,
-        fullName = "Pryscilla",
+        fullName = "Bernado Machado",
         email = "leonardobbrandao@hotmail.com",
         position = "Desenvolvedor Mobile",
         role = "leader",
         nuts = 1355,
-        superpower = Superpower(5, "O indestrutível laço da evolução"),
+        superpower = Superpower(5, "O indesturível laço da evolução"),
         tags = listOf(
             Tag(1, "Transformar"),
             Tag(2, "Cuidar"),
@@ -87,18 +88,19 @@ private val lista = listOf(
             Tag(10, "Surpreender")
         ),
         bio = "Fala, galera! Sou o Léo",
-        interactionsCount = 122,
-        missionsCompleted = 19,
-        score = 122+19
+        interactionsCount = 1476,
+        missionsCompleted = 11,
+        score = 1476+11,
+        likes = listOf()
     ),
     UserResponse(
         id = 3,
-        fullName = "Leonardo B. Brandão",
+        fullName = "Heitor Duarte",
         email = "leonardobbrandao@hotmail.com",
         position = "Desenvolvedor Mobile",
         role = "leader",
         nuts = 1355,
-        superpower = Superpower(5, "O indestrutível laço da evolução"),
+        superpower = Superpower(5, "As maravilhosas asas para inovar"),
         tags = listOf(
             Tag(1, "Transformar"),
             Tag(2, "Cuidar"),
@@ -112,86 +114,14 @@ private val lista = listOf(
             Tag(10, "Surpreender")
         ),
         bio = "Fala, galera! Sou o Léo",
-        interactionsCount = 122,
-        missionsCompleted = 19,
-        score = 122+19
-    ),
-    UserResponse(
-        id = 4,
-        fullName = "Davi",
-        email = "leonardobbrandao@hotmail.com",
-        position = "Desenvolvedor Mobile",
-        role = "leader",
-        nuts = 1355,
-        superpower = Superpower(5, "O indestrutível laço da evolução"),
-        tags = listOf(
-            Tag(1, "Transformar"),
-            Tag(2, "Cuidar"),
-            Tag(3, "Diversificar"),
-            Tag(4, "Respeitar"),
-            Tag(5, "Produzir bem"),
-            Tag(6, "Criatividade"),
-            Tag(7, "Inovação"),
-            Tag(8, "Excelência"),
-            Tag(9, "Reconhecimento"),
-            Tag(10, "Surpreender")
-        ),
-        bio = "Fala, galera! Sou o Léo",
-        interactionsCount = 122,
-        missionsCompleted = 19,
-        score = 122+19
-    ),
-    UserResponse(
-        id = 5,
-        fullName = "Gabriel Mendes",
-        email = "leonardobbrandao@hotmail.com",
-        position = "Desenvolvedor Mobile",
-        role = "leader",
-        nuts = 1355,
-        superpower = Superpower(5, "O indestrutível laço da evolução"),
-        tags = listOf(
-            Tag(1, "Transformar"),
-            Tag(2, "Cuidar"),
-            Tag(3, "Diversificar"),
-            Tag(4, "Respeitar"),
-            Tag(5, "Produzir bem"),
-            Tag(6, "Criatividade"),
-            Tag(7, "Inovação"),
-            Tag(8, "Excelência"),
-            Tag(9, "Reconhecimento"),
-            Tag(10, "Surpreender")
-        ),
-        bio = "Fala, galera! Sou o Léo",
-        interactionsCount = 122,
-        missionsCompleted = 19,
-        score = 122+19
-    ),
-    UserResponse(
-        id = 6,
-        fullName = "Wanessa",
-        email = "leonardobbrandao@hotmail.com",
-        position = "Desenvolvedor Mobile",
-        role = "leader",
-        nuts = 1355,
-        superpower = Superpower(5, "O indestrutível laço da evolução"),
-        tags = listOf(
-            Tag(1, "Transformar"),
-            Tag(2, "Cuidar"),
-            Tag(3, "Diversificar"),
-            Tag(4, "Respeitar"),
-            Tag(5, "Produzir bem"),
-            Tag(6, "Criatividade"),
-            Tag(7, "Inovação"),
-            Tag(8, "Excelência"),
-            Tag(9, "Reconhecimento"),
-            Tag(10, "Surpreender")
-        ),
-        bio = "Fala, galera! Sou o Léo",
-        interactionsCount = 122,
-        missionsCompleted = 19,
-        score = 122+19
+        interactionsCount = 1650,
+        missionsCompleted = 10,
+        score = 1650+10,
+        likes = listOf()
     )
 )
+
+
 class UserViewModel : ViewModel() {
     private val _userRepository = UserRepository()
 
@@ -204,6 +134,8 @@ class UserViewModel : ViewModel() {
     private var _authenticatedUser: UserResponse? = null
 
     private var _allUsers: List<UserResponse>? = null
+
+    private var _rankingUsersList: List<UserResponse>? = rankingList
 
     private var _viewModelIsReady by mutableStateOf(true)
 
@@ -297,6 +229,18 @@ class UserViewModel : ViewModel() {
         _viewModelIsReady = false
         viewModelScope.launch {
             _allUsers = _userRepository.listAllUsers()
+            _viewModelIsReady = true
+        }
+    }
+
+    fun listRankingUsers(): List<UserResponse>? {
+        return _rankingUsersList
+    }
+
+    fun loadRankingUsers() {
+        _viewModelIsReady = false
+        viewModelScope.launch {
+            /*_rankingUsersList = _userRepository.listAllUsers()*/
             _viewModelIsReady = true
         }
     }

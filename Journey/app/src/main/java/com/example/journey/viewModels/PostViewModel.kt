@@ -8,15 +8,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.journey.MainActivity
 import com.example.journey.data.models.NewPostRequest
+import com.example.journey.data.models.NewReactionRequest
 import com.example.journey.data.models.PostResponse
-import com.example.journey.data.models.Superpower
-import com.example.journey.data.models.Tag
-import com.example.journey.data.models.UserResponse
 import com.example.journey.data.repository.PostRepository
 import kotlinx.coroutines.launch
 
 
-private val lista = listOf(
+/*private val lista = listOf(
     PostResponse(
         title = "",
         description = "Recentemente, participei de um projeto que envolveu a reestruturação de " +
@@ -165,7 +163,7 @@ private val lista = listOf(
         ),
         id = 4
     )
-)
+)*/
 
 class PostViewModel : ViewModel() {
     private val _postRepository = PostRepository()
@@ -207,6 +205,21 @@ class PostViewModel : ViewModel() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+        }
+    }
+
+    fun addReactionOnPost(
+        context: MainActivity,
+        newReaction: NewReactionRequest
+    ) {
+        viewModelScope.launch {
+            val reactionAdded = _postRepository.addReaction(newReaction)
+            if (!reactionAdded)
+                Toast.makeText(
+                    context,
+                    "Não foi possível adicionar a reação.",
+                    Toast.LENGTH_SHORT
+                ).show()
         }
     }
 

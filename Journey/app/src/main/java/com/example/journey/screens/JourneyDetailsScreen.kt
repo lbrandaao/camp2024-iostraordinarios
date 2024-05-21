@@ -104,7 +104,9 @@ fun JourneyDetailsScreen(
                             fontFamily = Poppins,
                             fontWeight = FontWeight.Bold,
                             fontSize = 24.sp,
-                            color = Color.Black
+                            color = Color.Black,
+                            modifier = Modifier
+                                .fillMaxWidth()
                         )
 
                         Text(
@@ -114,6 +116,7 @@ fun JourneyDetailsScreen(
                             fontSize = 16.sp,
                             color = Color.Black,
                             modifier = Modifier
+                                .fillMaxWidth()
                                 .padding(top = 25.dp)
                         )
 

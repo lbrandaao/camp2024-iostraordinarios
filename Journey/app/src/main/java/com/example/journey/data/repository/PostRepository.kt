@@ -1,6 +1,7 @@
 package com.example.journey.data.repository
 
 import com.example.journey.data.models.NewPostRequest
+import com.example.journey.data.models.NewReactionRequest
 import com.example.journey.data.models.PostResponse
 import com.example.journey.data.remote.RetrofitInstance
 import com.example.journey.data.remote.TokenManager
@@ -29,5 +30,15 @@ class PostRepository {
         val response = _postService.getPost(requestToken, id)
 
         return response.body()
+    }
+
+    suspend fun addReaction(newReaction: NewReactionRequest): Boolean {
+        val requestToken = "Bearer " + TokenManager.getToken()
+        val response = _postService.addReaction(
+            requestToken,
+            newReaction
+        )
+
+        return response.isSuccessful
     }
 }

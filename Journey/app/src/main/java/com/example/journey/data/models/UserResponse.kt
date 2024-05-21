@@ -12,5 +12,6 @@ data class UserResponse(
     val bio: String,
     val interactionsCount: Int,
     val missionsCompleted: Int,
+    val likes: List<ReactionResponse>,
     val score: Int
 )

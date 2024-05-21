@@ -1,6 +1,7 @@
 package com.example.journey.components.utils
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,10 @@ import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,31 +33,43 @@ import com.example.journey.R
 import com.example.journey.data.models.PostResponse
 import com.example.journey.ui.theme.Poppins
 
+private enum class Reaction(val color: Color, val resource: Int) {
+    LIKE(Color.Blue, R.drawable.likereaction_icon),
+    HEART(Color.Red, R.drawable.heartreaction_icon),
+    CLAPS(Color(0xFFF1960D), R.drawable.clapreaction_icon),
+    SMILE(Color(0xFFF1960D), R.drawable.smilereaction_icon),
+    ADD_REACTION(Color.Black, R.drawable.add_reaction_icon)
+}
+
+
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun PostComponentFeed (
-    post: PostResponse
+fun PostComponentFeed(
+    post: PostResponse,
+    modifier: Modifier = Modifier
 ) {
+    var showReactions by remember { mutableStateOf(false) }
+    var reactionSelected by remember { mutableStateOf(Reaction.ADD_REACTION) }
+
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 10.dp)
             .background(color = Color.Transparent)
             .padding(horizontal = 5.dp)
-            .padding(bottom = 10.dp),
+            .padding(bottom = 24.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        Row (
+        Row(
             modifier = Modifier
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(35.dp)
-        ){
+        ) {
             Icon(
                 painter = painterResource(id = R.drawable.profile_icon),
                 contentDescription = "Ícone de perfil não clicável",
                 modifier = Modifier
-                    .size(55.dp)
+                    .size(45.dp)
                     .background(color = Color(0xFFFF85AB), shape = CircleShape)
                     .padding(10.dp),
                 tint = Color.Black
@@ -140,28 +157,98 @@ fun PostComponentFeed (
             }
         }
 
-        Box (
+        Box(
             modifier = Modifier
                 .fillMaxWidth(),
-        ){
-            Icon(
-                painter = painterResource(id = R.drawable.add_reaction_icon),
-                contentDescription = "Ícone clicável para adicionar curtir publicação.",
-                tint = Color.Black,
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .size(25.dp)
-            )
+        ) {
 
-            Row (
+            Row(
+                modifier = Modifier
+                    .align(Alignment.BottomStart),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(15.dp)
+            ) {
+                if (showReactions) {
+                    Icon(
+                        painter = painterResource(id = Reaction.LIKE.resource),
+                        contentDescription = "Ícone clicável para adicionar reação à publicação.",
+                        tint = Reaction.LIKE.color,
+                        modifier = Modifier
+                            .size(25.dp)
+                            .clickable {
+                                reactionSelected =
+                                    if (reactionSelected == Reaction.LIKE) Reaction.ADD_REACTION
+                                    else Reaction.LIKE
+                                showReactions = false
+                            }
+                    )
+
+                    Icon(
+                        painter = painterResource(id = Reaction.HEART.resource),
+                        contentDescription = "Ícone clicável para adicionar reação à publicação.",
+                        tint = Reaction.HEART.color,
+                        modifier = Modifier
+                            .size(25.dp)
+                            .clickable {
+                                reactionSelected =
+                                    if (reactionSelected == Reaction.HEART) Reaction.ADD_REACTION
+                                    else Reaction.HEART
+                                showReactions = false
+                            }
+                    )
+
+                    Icon(
+                        painter = painterResource(id = Reaction.CLAPS.resource),
+                        contentDescription = "Ícone clicável para adicionar reação à publicação.",
+                        tint = Reaction.CLAPS.color,
+                        modifier = Modifier
+                            .size(25.dp)
+                            .clickable {
+                                reactionSelected =
+                                    if (reactionSelected == Reaction.CLAPS) Reaction.ADD_REACTION
+                                    else Reaction.CLAPS
+                                showReactions = false
+                            }
+                    )
+
+                    Icon(
+                        painter = painterResource(id = Reaction.SMILE.resource),
+                        contentDescription = "Ícone clicável para adicionar reação à publicação.",
+                        tint = Reaction.SMILE.color,
+                        modifier = Modifier
+                            .size(25.dp)
+                            .clickable {
+                                reactionSelected =
+                                    if (reactionSelected == Reaction.SMILE) Reaction.ADD_REACTION
+                                    else Reaction.SMILE
+                                showReactions = false
+                            }
+                    )
+                } else {
+                    Icon(
+                        painter = painterResource(id = reactionSelected.resource),
+                        contentDescription = "Ícone clicável para adicionar reação à publicação.",
+                        tint = reactionSelected.color,
+                        modifier = Modifier
+                            .size(25.dp)
+                            .clickable {
+                                showReactions = true
+                            }
+                    )
+                }
+            }
+
+
+
+            Row(
                 modifier = Modifier
                     .align(Alignment.BottomEnd),
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
                 Icon(
                     painter = painterResource(id = R.drawable.message_icon),
-                    contentDescription = "Ícone clicável para adicionar curtir publicação.",
+                    contentDescription = "Ícone não clicável",
                     tint = Color.Black,
                     modifier = Modifier
                         .size(25.dp)
@@ -169,7 +256,7 @@ fun PostComponentFeed (
 
                 Icon(
                     painter = painterResource(id = R.drawable.send_icon),
-                    contentDescription = "Ícone clicável para adicionar curtir publicação.",
+                    contentDescription = "Ícone não clicável.",
                     tint = Color.Black,
                     modifier = Modifier
                         .size(25.dp)
@@ -177,7 +264,7 @@ fun PostComponentFeed (
 
                 Icon(
                     painter = painterResource(id = R.drawable.save_icon),
-                    contentDescription = "Ícone clicável para adicionar curtir publicação.",
+                    contentDescription = "Ícone não clicável.",
                     tint = Color.Black,
                     modifier = Modifier
                         .size(25.dp)

@@ -19,6 +19,8 @@ private val lista = listOf(
     Superpower(7, "A fabulosa flecha da agilidade")
 )
 
+//private val rankingSuperpowersList = listOf()
+
 class SuperpowerViewModel: ViewModel() {
     private val _superpowerRepository = SuperpowerRepository()
     private var _superpowersList: List<Superpower>? = null

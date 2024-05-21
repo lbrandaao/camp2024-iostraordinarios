@@ -23,6 +23,7 @@ import com.example.journey.screens.JourneyDetailsScreen
 import com.example.journey.screens.JourneysListScreen
 import com.example.journey.screens.LoginScreen
 import com.example.journey.screens.OnBoardingScreen
+import com.example.journey.screens.PostsFeedScreen
 import com.example.journey.screens.PostsListScreen
 import com.example.journey.screens.ProfileScreen
 import com.example.journey.screens.RegistrationScreen
@@ -37,9 +38,7 @@ import com.example.journey.viewModels.UserViewModel
 
 /*
 * (1) TELA DE RANKING: aguardando endpoint pra puxar ranking
-* (2) Tela de Completar Jornada: Aguardando rota pra conectar com API
-* (3) Tela de Feed (deixar parte de pesquisa não funcional por enquanto)
-* (4) Adicionar reações
+* (2) Tela de Completar Jornada: Aguardando rota pra conectar com APId
 * */
 class MainActivity : ComponentActivity() {
     private val userViewModel by viewModels<UserViewModel>()
@@ -145,7 +144,15 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
-                    composable(Routes.PostsFeed.route){}
+                    composable(Routes.PostsFeed.route){
+                        PostsFeedScreen(
+                            userViewModel = userViewModel,
+                            postViewModel = postViewModel,
+                            onBackButtonClick = {
+                                navControllerNoAppBars.popBackStack()
+                            }
+                        )
+                    }
 
                     composable(Routes.WithAppBars.route) {
                         val navControllerWithAppBars = rememberNavController()
