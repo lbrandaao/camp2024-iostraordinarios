@@ -55,6 +55,7 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
 
         TokenManager.init(this@MainActivity)
+        TokenManager.setToken("")
 
         setContent {
             val navControllerNoAppBars = rememberNavController()
@@ -160,6 +161,7 @@ class MainActivity : ComponentActivity() {
 
                     composable(Routes.WithAppBars.route) {
                         val navControllerWithAppBars = rememberNavController()
+
                         Scaffold(
                             topBar = {
                                 CustomTopAppBar(

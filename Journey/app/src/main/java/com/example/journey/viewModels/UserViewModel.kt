@@ -217,7 +217,7 @@ class UserViewModel : ViewModel() {
     fun loadRankingUsers() {
         _viewModelIsReady = false
         viewModelScope.launch {
-            /*_rankingUsersList = _userRepository.listAllUsers()*/
+            /*_rankingUsersList = _userRepository.listRankingUsers()*/
             _viewModelIsReady = true
         }
     }
