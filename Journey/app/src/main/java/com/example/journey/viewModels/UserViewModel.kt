@@ -14,31 +14,6 @@ import com.example.journey.data.models.UserResponse
 import com.example.journey.data.repository.UserRepository
 import kotlinx.coroutines.launch
 
-/*private val user = UserResponse(
-    id = 3,
-    fullName = "Leonardo B. Brandão",
-    email = "leonardobbrandao@hotmail.com",
-    position = "Desenvolvedor Mobile",
-    role = "leader",
-    nuts = 1355,
-    superpower = Superpower(5, "O indestrutível laço da evolução"),
-    tags = listOf(
-        Tag(1, "Transformar"),
-        Tag(2, "Cuidar"),
-        Tag(3, "Diversificar"),
-        Tag(4, "Respeitar"),
-        Tag(5, "Produzir bem"),
-        Tag(6, "Criatividade"),
-        Tag(7, "Inovação"),
-        Tag(8, "Excelência"),
-        Tag(9, "Reconhecimento"),
-        Tag(10, "Surpreender")
-    ),
-    bio = "Fala, galera! Sou o Léo",
-    interactionsCount = 122,
-    journeysCompleted = 19,
-    score = 122+19
-)*/
 
 private val rankingList = listOf(
     UserResponse(
@@ -123,7 +98,6 @@ private val rankingList = listOf(
         publishesCount = 10
     )
 )
-
 
 class UserViewModel : ViewModel() {
     private val _userRepository = UserRepository()

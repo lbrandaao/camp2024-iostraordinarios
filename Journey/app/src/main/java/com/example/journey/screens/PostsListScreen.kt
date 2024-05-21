@@ -20,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
@@ -43,7 +42,7 @@ fun PostsListScreen(
     if (postViewModel.listPosts() == null) postViewModel.loadPosts()
 
     if (postViewModel.isReady()) {
-        val postsList =  remember { postViewModel.listPosts() ?: listOf() }
+        val postsList = remember { postViewModel.listPosts() ?: listOf() }
         val pagerState = rememberPagerState(pageCount = postsList.size)
 
         Column(
@@ -72,22 +71,22 @@ fun PostsListScreen(
                     .fillMaxWidth(),
                 itemSpacing = 0.dp
             ) { page ->
-                    PostComponent(
-                        post = postsList[page],
-                        modifier = Modifier
-                            .graphicsLayer {
-                                val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
-                                lerp(
-                                    start = 0.8f,
-                                    stop = 1f,
-                                    fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                                )
-                                    .also { scale ->
-                                        scaleX = scale
-                                        scaleY = scale
-                                    }
-                            }
-                    )
+                PostComponent(
+                    post = postsList[page],
+                    modifier = Modifier
+                        .graphicsLayer {
+                            val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
+                            lerp(
+                                start = 0.8f,
+                                stop = 1f,
+                                fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                            )
+                                .also { scale ->
+                                    scaleX = scale
+                                    scaleY = scale
+                                }
+                        }
+                )
 
             }
 
@@ -128,14 +127,4 @@ fun PostsListScreen(
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun PostsListScreenPreview() {
-    PostsListScreen(
-        paddingValues = PaddingValues(),
-        postViewModel = PostViewModel(),
-        onSeeMoreButtonClick = {}
-    )
 }

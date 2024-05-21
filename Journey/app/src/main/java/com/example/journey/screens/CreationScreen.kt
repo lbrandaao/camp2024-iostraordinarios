@@ -35,14 +35,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.journey.MainActivity
@@ -50,10 +48,8 @@ import com.example.journey.R
 import com.example.journey.components.textfields.CustomDropDownMenuCreation
 import com.example.journey.components.textfields.CustomLongTextField
 import com.example.journey.components.textfields.CustomTextField
-import com.example.journey.data.models.JourneyResponse
 import com.example.journey.data.models.NewJourneyRequest
 import com.example.journey.data.models.NewPostRequest
-import com.example.journey.data.models.PostResponse
 import com.example.journey.data.models.Superpower
 import com.example.journey.data.models.Tag
 import com.example.journey.ui.theme.Poppins
@@ -386,7 +382,7 @@ fun CreationScreen(
                             if (
                                 it.isEmpty() ||
                                 it.last().isDigit()
-                                ) nutsText = it
+                            ) nutsText = it
                         },
                         label = "",
                         placeholder = "Adicionar número de nozes",
@@ -513,21 +509,5 @@ fun CreationScreen(
                 strokeWidth = 8.dp
             )
         }
-    }
-}
-
-@Preview
-@Composable
-fun CreationScreenPreview() {
-    CreationScreen(
-        context = MainActivity(),
-        paddingValues = PaddingValues(),
-        userViewModel = UserViewModel(),
-        journeyViewModel = JourneyViewModel(),
-        postViewModel = PostViewModel(),
-        tagViewModel = TagViewModel(),
-        superpowerViewModel = SuperpowerViewModel(),
-        onBackButtonClick = {}
-    ) {
     }
 }

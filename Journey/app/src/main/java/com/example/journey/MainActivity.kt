@@ -38,10 +38,10 @@ import com.example.journey.viewModels.TagViewModel
 import com.example.journey.viewModels.UserViewModel
 
 /*
-* (1) TELA DE RANKING: implementar superpoderes estaticamente
-* (2) Tela de Completar Jornada: implementar conclusão de jornada
-* (3) Likes
-* (4) Atualizar perfil do usuário dps de criar post/concluir jornada
+* (1) Tela de Completar Jornada: implementar conclusão de jornada
+* (2) Likes
+* (3) Toast para funcionalidades não implementadas
+* (4) Remover esses comentários
 * */
 class MainActivity : ComponentActivity() {
     private val userViewModel by viewModels<UserViewModel>()
@@ -241,6 +241,7 @@ class MainActivity : ComponentActivity() {
                                                 navControllerWithAppBars.popBackStack()
                                             },
                                             onCreationConfirm = {
+                                                userViewModel.setAuthenticatedUser()
                                                 navControllerWithAppBars.popBackStack()
                                                 navControllerWithAppBars.navigate(Routes.JourneysList.route)
                                             }
@@ -257,7 +258,7 @@ class MainActivity : ComponentActivity() {
 
     private fun onBoardingIsFinished(context: MainActivity): Boolean {
         val sharedPreferences = context.getSharedPreferences("onBoarding", Context.MODE_PRIVATE)
-        return false
-        //return sharedPreferences.getBoolean("isFinished", false)
+
+        return sharedPreferences.getBoolean("isFinished", false)
     }
 }
