@@ -39,7 +39,7 @@ fun CustomTopAppBar(
     val currentPage = navBackStackEntry?.destination?.route?:""
 
 
-    if (currentPage != Routes.Profile.route){
+    if (currentPage != Routes.Profile.route && currentPage != Routes.Ranking.route){
         Row(
             modifier = Modifier
                 .padding(horizontal = 16.dp)

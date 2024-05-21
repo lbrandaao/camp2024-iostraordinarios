@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
     ),
     bio = "Fala, galera! Sou o Léo",
     interactionsCount = 122,
-    missionsCompleted = 19,
+    journeysCompleted = 19,
     score = 122+19
 )*/
 
@@ -63,9 +63,10 @@ private val rankingList = listOf(
         ),
         bio = "Fala, galera! Sou o Léo",
         interactionsCount = 1780,
-        missionsCompleted = 12,
+        journeysCompleted = 12,
         score = 1780+12,
-        likes = listOf()
+        likes = listOf(),
+        publishesCount = 10
     ),
     UserResponse(
         id = 2,
@@ -89,9 +90,10 @@ private val rankingList = listOf(
         ),
         bio = "Fala, galera! Sou o Léo",
         interactionsCount = 1476,
-        missionsCompleted = 11,
+        journeysCompleted = 11,
         score = 1476+11,
-        likes = listOf()
+        likes = listOf(),
+        publishesCount = 10
     ),
     UserResponse(
         id = 3,
@@ -115,9 +117,10 @@ private val rankingList = listOf(
         ),
         bio = "Fala, galera! Sou o Léo",
         interactionsCount = 1650,
-        missionsCompleted = 10,
+        journeysCompleted = 10,
         score = 1650+10,
-        likes = listOf()
+        likes = listOf(),
+        publishesCount = 10
     )
 )
 

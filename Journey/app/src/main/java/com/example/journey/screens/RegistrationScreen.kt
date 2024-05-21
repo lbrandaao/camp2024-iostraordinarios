@@ -250,12 +250,12 @@ fun RegistrationScreen(
             }
 
             item {
-                Row (
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 40.dp, top = 30.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
-                ){
+                ) {
                     OutlinedButton(
                         onClick = {
                             onBackButtonClick.invoke()
@@ -288,14 +288,39 @@ fun RegistrationScreen(
                                 occupationValue.isNotBlank() &&
                                 isLeader != null
                             ) {
-                                userViewModel.saveNewUserData(
-                                    nameValue,
-                                    emailValue,
-                                    passwordValue,
-                                    occupationValue,
-                                    if(isLeader!!) "leader" else "user"
-                                )
-                                onContinueButtonClick.invoke()
+                                if (passwordValue.length >= 8) {
+                                    if (emailValue
+                                            .contains(
+                                                regex =
+                                                Regex(
+                                                    "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\$"
+                                                )
+                                            )
+                                    ) {
+                                        userViewModel.saveNewUserData(
+                                            nameValue,
+                                            emailValue,
+                                            passwordValue,
+                                            occupationValue,
+                                            if (isLeader!!) "leader" else "user"
+                                        )
+                                        onContinueButtonClick.invoke()
+                                    } else {
+                                        Toast.makeText(
+                                            context,
+                                            "Insira um email válido.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                } else {
+                                    Toast.makeText(
+                                        context,
+                                        "A senha deve conter pelo menos 8 caracteres.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+
+
                             } else {
                                 Toast.makeText(
                                     context,

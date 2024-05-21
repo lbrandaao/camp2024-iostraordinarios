@@ -26,6 +26,7 @@ import com.example.journey.screens.OnBoardingScreen
 import com.example.journey.screens.PostsFeedScreen
 import com.example.journey.screens.PostsListScreen
 import com.example.journey.screens.ProfileScreen
+import com.example.journey.screens.RankingScreen
 import com.example.journey.screens.RegistrationScreen
 import com.example.journey.screens.Routes
 import com.example.journey.ui.theme.JourneyTheme
@@ -37,8 +38,10 @@ import com.example.journey.viewModels.TagViewModel
 import com.example.journey.viewModels.UserViewModel
 
 /*
-* (1) TELA DE RANKING: aguardando endpoint pra puxar ranking
-* (2) Tela de Completar Jornada: Aguardando rota pra conectar com APId
+* (1) TELA DE RANKING: implementar superpoderes estaticamente
+* (2) Tela de Completar Jornada: implementar conclusão de jornada
+* (3) Likes
+* (4) Atualizar perfil do usuário dps de criar post/concluir jornada
 * */
 class MainActivity : ComponentActivity() {
     private val userViewModel by viewModels<UserViewModel>()
@@ -50,6 +53,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
+
         TokenManager.init(this@MainActivity)
 
         setContent {
@@ -216,7 +220,13 @@ class MainActivity : ComponentActivity() {
                                         )
                                     }
 
-                                    composable(Routes.Ranking.route) {}
+                                    composable(Routes.Ranking.route) {
+                                        RankingScreen(
+                                            userViewModel = userViewModel,
+                                            superpowerViewModel = superpowerViewModel,
+                                            paddingValues = paddingValues
+                                        )
+                                    }
 
                                     composable(Routes.Creation.route) {
                                         CreationScreen(
@@ -247,6 +257,7 @@ class MainActivity : ComponentActivity() {
 
     private fun onBoardingIsFinished(context: MainActivity): Boolean {
         val sharedPreferences = context.getSharedPreferences("onBoarding", Context.MODE_PRIVATE)
-        return sharedPreferences.getBoolean("isFinished", false)
+        return false
+        //return sharedPreferences.getBoolean("isFinished", false)
     }
 }

@@ -321,7 +321,7 @@ fun ProfileScreen(
 
                     Text(
                         text = "Você concluiu +" +
-                                authenticatedUser.missionsCompleted.toString() +
+                                authenticatedUser.journeysCompleted.toString() +
                                 " jornadas no último mês!",
                         fontFamily = Poppins,
                         fontWeight = FontWeight.SemiBold,
@@ -351,7 +351,7 @@ fun ProfileScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ){
                                 Text(
-                                    text = authenticatedUser.missionsCompleted.toString(),
+                                    text = authenticatedUser.publishesCount.toString(),
                                     fontFamily = Poppins,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 24.sp,

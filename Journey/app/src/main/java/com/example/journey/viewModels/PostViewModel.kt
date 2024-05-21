@@ -48,7 +48,7 @@ import kotlinx.coroutines.launch
             bio = "",
             interactionsCount = 0,
             score = 0,
-            missionsCompleted = 0
+            journeysCompleted = 0
         ),
         id = 1
     ),
@@ -85,7 +85,7 @@ import kotlinx.coroutines.launch
             bio = "",
             interactionsCount = 0,
             score = 0,
-            missionsCompleted = 0
+            journeysCompleted = 0
         ),
         id = 2
     ),
@@ -122,7 +122,7 @@ import kotlinx.coroutines.launch
             bio = "",
             interactionsCount = 0,
             score = 0,
-            missionsCompleted = 0
+            journeysCompleted = 0
         ),
         id = 3
     ),
@@ -159,7 +159,7 @@ import kotlinx.coroutines.launch
             bio = "",
             interactionsCount = 0,
             score = 0,
-            missionsCompleted = 0
+            journeysCompleted = 0
         ),
         id = 4
     )
