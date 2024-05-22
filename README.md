@@ -95,3 +95,5 @@ git clone https://github.com/lbrandaao/camp2024-iostraordinarios.git
 3. **Executar o Projeto**
    - Conecte um dispositivo Android via USB ou configure um emulador Android no Android Studio.
    - Clique no botão `Run` (ícone de um triângulo verde) ou pressione `Shift + F10`.
+
+4.  **OBSERVAÇÃO:** o serviço utilizado para hospedagem da API pode levar alguns minutos para responder a primeira requisição caso ele tenha ficado inativo por muito tempo.    
